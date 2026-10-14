@@ -1,0 +1,26 @@
+{
+  "name": "solve-learning",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "start": "node scripts/dev.mjs --production",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "node scripts/test-browser.mjs",
+    "dev:web": "next dev --webpack --hostname 127.0.0.1"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@playwright/test": "^1.56.0"
+  }
+}

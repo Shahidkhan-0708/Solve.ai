@@ -1,0 +1,14 @@
+node_modules
+.next
+.venv
+.npm-cache
+.git
+backend/data
+backend/.env
+.env
+.env.local
+tmp
+test-results
+playwright-report
+*.pdf
+researchingoogle.txt

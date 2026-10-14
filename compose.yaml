@@ -1,0 +1,33 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash}
+      BRAVE_SEARCH_API_KEY: ${BRAVE_SEARCH_API_KEY:-}
+      ALLOWED_ORIGINS: ${SOLVE_ORIGIN:-http://127.0.0.1:3000}
+      SECURE_COOKIES: ${SECURE_COOKIES:-false}
+      MAX_AI_CALLS_PER_DAY: ${MAX_AI_CALLS_PER_DAY:-200}
+    volumes:
+      - learning-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD","python","-c","import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  web:
+    build:
+      context: .
+      args:
+        API_URL: http://api:8000
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  learning-data:

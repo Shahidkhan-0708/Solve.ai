@@ -1,0 +1,39 @@
+%% Implemented learning transitions: attempt, fresh_task and next_task.
+%% Due reviews are selected before unfinished concepts.
+flowchart TD
+    LOAD["Load or resume private session"] --> ACTIVE{"Saved active task exists?"}
+    ACTIVE -->|Yes| PRESENT["Present saved task unchanged"]
+    ACTIVE -->|No| NEXT["next_task: due demonstrated review first, then first new or introduced concept"]
+    NEXT --> FOUND{"Task available?"}
+    FOUND -->|Yes| PRESENT
+    FOUND -->|No| WAIT["Show progress; return after 24 hours for scheduled recall"] --> LOAD
+    PRESENT --> SUBMIT["POST /attempt: task ID and answer"]
+    SUBMIT --> CHECK{"Task ID matches and attempt limit not reached?"}
+    CHECK -->|No| REJECT["Reject submission; reload or start a new session"]
+    CHECK -->|Yes| MODE{"Reviewed demo or live session?"}
+    MODE -->|Demo| NUMERIC["Deterministic numeric assessment; no AI call"]
+    MODE -->|Live| ASSESS["generate Feedback: question, private criteria, answer and cited passages"]
+    NUMERIC --> RESULT{"Feedback status"}
+    ASSESS --> RESULT
+    RESULT -->|unable_to_assess| SAME["Keep task and progress; explain uncertainty"]
+    RESULT -->|correct| PHASE{"Answered phase"}
+    PHASE -->|diagnostic or repair| INTRODUCED["Set introduced; choose fresh practice"]
+    PHASE -->|practice| DEMONSTRATED["Set demonstrated; increment successes; schedule review in 24 hours"]
+    PHASE -->|review| RECHECKED["Set rechecked only if review is due; schedule timestamp in 24 hours"]
+    RESULT -->|partially_correct or incorrect| GAP["Set introduced; show feedback and suspected gap"]
+    GAP --> REPAIRING{"Already answering repair?"}
+    REPAIRING -->|Yes| SAME_REPAIR["Keep the same repair task"]
+    REPAIRING -->|No| FRESH_REPAIR["Choose fresh repair task"]
+    INTRODUCED --> FRESH["fresh_task: requested unseen question, then unseen alternate, then generate Question"]
+    FRESH_REPAIR --> FRESH
+    FRESH --> READY["Verify new prompt and criteria; retain requested practice or repair phase"]
+    DEMONSTRATED --> ADVANCE["Choose next task"]
+    RECHECKED --> ADVANCE
+    SAME --> SAVE["Save attempt, feedback, progress and selected task in SQLite"]
+    SAME_REPAIR --> SAVE
+    READY --> SAVE
+    ADVANCE --> SAVE
+    SAVE --> RETURN["Return public state with citations and no answer keys"] --> LOAD
+    ASSESS -.-> FAILURE["AI or fresh-question failure: persisted attempt and progress unchanged"]
+    FRESH -.-> FAILURE
+    FAILURE --> SUBMIT

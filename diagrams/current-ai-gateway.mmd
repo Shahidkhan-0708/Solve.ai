@@ -1,0 +1,28 @@
+%% Shared generate() gateway for Course, Feedback and Question.
+%% Every mutating HTTP request also passes middleware and the mutation lock.
+flowchart TD
+    REQUEST["Incoming request"] --> BOUNDARY["Middleware: owner cookie; write origin, body size, quota and mutation lock"]
+    BOUNDARY --> ROUTE["Route: validate payload, ownership and current session state"]
+    ROUTE --> CALL{"AI role requested?"}
+    CALL -->|No: extraction, scheduling or demo| LOCAL["Run deterministic tools or controller"]
+    CALL -->|Course, Feedback or Question| KEY{"OPENAI_API_KEY configured?"}
+    KEY -->|No| UNAVAILABLE["503: live AI unavailable; reviewed demo remains available"]
+    KEY -->|Yes| QUOTA["Charge owner and deployment daily AI quotas"]
+    QUOTA --> SLOT["Acquire AI semaphore slot; maximum 3"]
+    SLOT --> MODEL["Call configured model with evidence-only system prompt and strict JSON schema"]
+    MODEL --> TRANSIENT{"Timeout, network failure, HTTP 429 or selected 5xx?"}
+    TRANSIENT -->|Yes| BUDGET{"First attempt?"}
+    BUDGET -->|Yes| DELAY["Wait 1 second; retry once"] --> MODEL
+    BUDGET -->|No| ERROR["Return 502 or 504; route has not committed new session state"]
+    TRANSIENT -->|No| OK{"HTTP 200?"}
+    OK -->|No| ERROR
+    OK -->|Yes| COMPLETE{"Finished normally and no refusal?"}
+    COMPLETE -->|No| REFUSAL["422: narrow material and retry"]
+    COMPLETE -->|Yes| SCHEMA{"JSON satisfies requested Pydantic schema?"}
+    SCHEMA -->|No| ERROR
+    SCHEMA -->|Yes| TYPED["Return typed result; log role and token usage"]
+    TYPED --> DOMAIN["Route validates quotations, prerequisites or question uniqueness where applicable"]
+    DOMAIN --> SAVE["Commit session state after route work succeeds"]
+    LOCAL --> SAVE
+    SAVE --> PUBLIC["Return sanitized state; hide expected answers and prior answer records"]
+    PUBLIC --> CLIENT["Browser receives result; 180-second timeout prompts reload before retry"]

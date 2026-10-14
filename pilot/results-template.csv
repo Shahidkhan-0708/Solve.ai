@@ -1,0 +1,1 @@
+participant_id,group,mode,pre_score_10,post_score_10,delayed_score_10,delayed_elapsed_hours,completed,returned,withdrawn,first_task_seconds,input_tokens,output_tokens,provider_cost_currency,provider_cost,grading_disputes,reviewer_confirmed_errors,technical_incidents,support_minutes,stop_reason

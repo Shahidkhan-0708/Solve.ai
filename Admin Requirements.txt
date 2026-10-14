@@ -1,0 +1,36 @@
+You are an expert AI & Machine Learning Systems Architect. 
+
+I want to determine whether my feature/product genuinely requires a custom or trained Machine Learning (ML) model, a pre-trained API/LLM, or if traditional heuristics/rules/deterministic code are sufficient.
+
+Please evaluate my requirements against the following criteria:
+
+---
+### Project Details:
+- **Core Problem/Task:** [Describe what you are trying to achieve, e.g., recommend products, detect fraudulent transactions, extract data from invoices]
+- **Input Data:** [Describe the inputs: text, images, tabular database records, audio, sensor streams, etc.]
+- **Expected Output:** [Describe the output: binary yes/no, category/tag, numeric forecast, generated text/image, structured JSON, etc.]
+- **Scale & Performance Requirements:** [e.g., real-time latency < 50ms, offline batch daily, 10k users]
+- **Tolerance for Error:** [Can the system make occasional mistakes, or does it require 100% deterministic accuracy?]
+- **Available Data:** [Do we have labelled training data? How many samples?]
+
+---
+
+### Please Provide Your Analysis in This Structure:
+
+1. **Verdict (ML vs. Heuristic vs. LLM/API):**
+   - Direct verdict: Choose one of:
+     - `No ML needed (Heuristics / Deterministic code / SQL / Regex)`
+     - `Off-the-shelf API or LLM prompt sufficient`
+     - `Lightweight Classical ML (e.g., Logistic Regression, Random Forest, XGBoost)`
+     - `Custom Deep Learning / Fine-Tuned Model required`
+
+2. **Feasibility & Trade-off Breakdown:**
+   - **Complexity vs. Value:** Does ML actually improve outcomes compared to 5–10 if/else rules or database queries?
+   - **Data Readiness:** Do we have enough volume and quality of data to justify ML?
+   - **Maintenance Burden:** Compute, training pipeline, latency, model drift, and hosting overhead.
+
+3. **Recommended Step 1 (The Baseline):**
+   - The simplest deterministic or baseline solution we should build first before attempting any ML.
+
+4. **Trigger Points for Upgrading to ML:**
+   - Exact conditions or metrics (e.g., "when rules exceed 50 edge cases" or "when accuracy plateaus below 70%") that indicate it's time to introduce ML.

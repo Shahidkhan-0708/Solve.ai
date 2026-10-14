@@ -1,0 +1,29 @@
+%% Implemented source-to-course workflow: backend/main.py.
+flowchart TD
+    CREATE["POST /sessions: goal, level, minutes and optional deadline"] --> SAVE["Save browser-owned session in SQLite"]
+    SAVE --> INPUT{"Add source"}
+    INPUT -->|Pasted text| TEXT["Validate title and text"]
+    INPUT -->|PDF upload| PDF["Check signature, size, page count and readable pages"]
+    INPUT -->|Public URL| WEB["Validate and pin public IP; recheck redirects; fetch text or PDF"]
+    INPUT -->|Find resources| SEARCH["Brave search if configured; otherwise search links"]
+    SEARCH --> CHOOSE["Student checks result and adds URL or text"] --> INPUT
+    TEXT --> ADD["add_source: enforce limits, deduplicate and split into 3000-character passages"]
+    PDF --> ADD
+    WEB --> ADD
+    ADD --> EXTRACTED["Save sources; student reads extracted text"]
+    EXTRACTED --> MORE{"More sources needed?"}
+    MORE -->|Yes| INPUT
+    MORE -->|No| CONFIRM{"Student confirms at least one source?"}
+    CONFIRM -->|No| EXTRACTED
+    CONFIRM -->|Yes| SELECT["select_passages: first passage per source plus keyword-ranked passages; maximum 20"]
+    SELECT --> AI["generate Course: goal, level, minutes and selected evidence"]
+    AI --> VERIFY["Validate schema, 1-8 concepts, earlier prerequisites, distinct questions and exact quotations"]
+    VERIFY --> INSTALL["install_course: store course, evidence IDs and new progress; select first diagnostic"]
+    INSTALL --> RESPONSE["Save session; return lessons, citations and task without answer keys"]
+    PDF -.-> ERROR["Reject invalid material or output; return actionable error"]
+    WEB -.-> ERROR
+    ADD -.-> ERROR
+    AI -.-> ERROR
+    VERIFY -.-> ERROR
+    ERROR --> RETRY["Correct input or retry; reload saved session if request outcome is uncertain"]
+    RETRY --> EXTRACTED

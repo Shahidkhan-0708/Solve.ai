@@ -1,0 +1,87 @@
+%% Solve.ai: target agent workflow, editable design blueprint.
+%% This describes the intended product, not a claim that every agent exists.
+%% Blue = proposed AI role; green = AI role already present in backend/main.py.
+%% Grey = deterministic controller/tool; orange = learner decision.
+%% Change node labels inside quotes and routes on --> lines.
+flowchart TD
+    OPEN(["Student opens Solve.ai"]) --> RESUME{"Resume saved goal?"}
+    RESUME -->|Yes| LOAD["Controller: restore sources, progress and current task"]
+    RESUME -->|No| INTAKE["Intake agent: goal, exam, syllabus, marks, deadline, time and starting level"]
+    INTAKE --> ENOUGH{"Enough information?"}
+    ENOUGH -->|No| ASK["Ask only the missing questions"] --> INTAKE
+    ENOUGH -->|Yes| ROUTER{"Resource controller: definitive question bank?"}
+
+    subgraph SOURCES["1. Collect and approve evidence"]
+        ROUTER -->|Yes| LOCK["Lock scope to the supplied question bank"]
+        ROUTER -->|No| HAVE{"Useful supplied material?"}
+        HAVE -->|Yes| SUPPLIED["Use uploaded PDFs, pasted notes and public links"]
+        HAVE -->|No| DISCOVERY["Discovery agent: find matching syllabus and academic sources"]
+        LOCK --> EXTRACT["Extraction tools: PDF text, webpage text and source metadata"]
+        SUPPLIED --> EXTRACT
+        DISCOVERY --> FETCH{"Public source readable and safe to fetch?"}
+        FETCH -->|Yes| EXTRACT
+        FETCH -->|No| LINKS["Return resource links; ask student to add permitted text"] --> SUPPLIED
+        EXTRACT --> READABLE{"Readable, relevant and within limits?"}
+        READABLE -->|No| FIXSOURCE["Ask for smaller material, OCR or a replacement"] --> SUPPLIED
+        READABLE -->|Yes| CLEAN["Remove noise, deduplicate and assign passage IDs"]
+        CLEAN --> APPROVE{"Student confirms extracted evidence?"}
+        APPROVE -->|No| FIXSOURCE
+        APPROVE -->|Yes| EVIDENCE["Evidence pack: selected passages, citations and scope"]
+    end
+
+    subgraph PLAN["2. Choose and build the learning approach"]
+        EVIDENCE --> STRATEGY["Strategy agent: prioritize concepts using time, marks, prerequisites and source coverage"]
+        STRATEGY --> METHOD{"Choose a suitable technique"}
+        METHOD -->|Urgent preparation| SPRINT["Focused worked examples and short recall drills"]
+        METHOD -->|Conceptual gaps| TEACHBACK["Explain, teach back and apply to a new example"]
+        METHOD -->|Longer preparation| SPACED["Distributed practice, retrieval and later review"]
+        SPRINT --> BUILDER["Course builder: ordered concepts, explanations and answer criteria"]
+        TEACHBACK --> BUILDER
+        SPACED --> BUILDER
+        BUILDER --> VALIDATE{"Schema, source quotations, prerequisite order and distinct questions valid?"}
+        VALIDATE -->|No| PLANERROR["Keep prior saved state; narrow sources or retry"] --> EVIDENCE
+        VALIDATE -->|Yes| SAVEPLAN["Controller: save course and explain the proposed approach"]
+    end
+
+    subgraph LEARN["3. Diagnose, teach, practise and adapt"]
+        SAVEPLAN --> NEXT["Controller: select current concept or due review"]
+        LOAD --> NEXT
+        NEXT --> TASK["Present diagnostic, practice, repair or review task"]
+        TASK --> ANSWER["Student answers or teaches the idea back"]
+        ANSWER --> ASSESS["Assessment agent: compare reasoning with criteria and evidence"]
+        ASSESS --> RESULT{"Assessment result"}
+        RESULT -->|Cannot assess| CLARIFY["Explain uncertainty; keep task and progress"] --> TASK
+        RESULT -->|Partial or incorrect| REPAIR["Explain suspected gap and show a worked step"]
+        REPAIR --> FRESH["Question agent: reuse an unseen question or generate a new one"] --> TASK
+        RESULT -->|Correct diagnostic or repair| FRESH
+        RESULT -->|Correct practice or review| TRACK["Controller: update progress and schedule delayed recall"]
+        TRACK --> LEFT{"Unfinished concepts or reviews due?"}
+        LEFT -->|Yes| NEXT
+        LEFT -->|No| REPORT["Show demonstrated concepts, remaining gaps and next review"]
+        REPORT --> RETURN(["Pause; return when recall is due"])
+        RETURN --> LOAD
+        TRACK -.-> ADAPT["Strategy agent: revise remaining priorities within approved source scope"]
+        ADAPT -.-> NEXT
+    end
+
+    TASK -.-> ISSUE["Student flags an explanation or assessment"]
+    ISSUE --> REVIEW["Save issue for human review; no automatic prompt rewriting"]
+    REVIEW -.-> TASK
+    EVIDENCE -.-> STORE[("Private session store: sources, plan, task, attempts and reports")]
+    SAVEPLAN -.-> STORE
+    TRACK -.-> STORE
+    REVIEW -.-> STORE
+    STORE -.-> LOAD
+    EVIDENCE -.-> GATEWAY["Shared AI gateway: evidence-only prompts, structured output, quotas and bounded retries"]
+    GATEWAY -.-> BUILDER
+    GATEWAY -.-> ASSESS
+    GATEWAY -.-> FRESH
+
+    classDef proposed fill:#eaf1ff,stroke:#4169b1,color:#17345c;
+    classDef existingAI fill:#e9f7ee,stroke:#348b58,color:#16462b;
+    classDef controller fill:#f2f4f7,stroke:#667085,color:#253044;
+    classDef human fill:#fff2d9,stroke:#b57c18,color:#65450e;
+    class INTAKE,DISCOVERY,STRATEGY,ADAPT proposed;
+    class BUILDER,ASSESS,FRESH existingAI;
+    class LOAD,ASK,LOCK,SUPPLIED,EXTRACT,LINKS,FIXSOURCE,CLEAN,EVIDENCE,SPRINT,TEACHBACK,SPACED,PLANERROR,SAVEPLAN,NEXT,TASK,CLARIFY,REPAIR,TRACK,REPORT,REVIEW,STORE,GATEWAY controller;
+    class OPEN,ANSWER,APPROVE,ISSUE,RETURN human;

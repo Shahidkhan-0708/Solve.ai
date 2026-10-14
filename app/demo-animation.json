@@ -1,0 +1,48 @@
+[
+  [
+    {
+      "video": "/lessons/recursion-v1/concept-0-step-0.mp4",
+      "still": "/lessons/recursion-v1/concept-0-step-0.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-0-step-1.mp4",
+      "still": "/lessons/recursion-v1/concept-0-step-1.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-0-step-2.mp4",
+      "still": "/lessons/recursion-v1/concept-0-step-2.png"
+    }
+  ],
+  [
+    {
+      "video": "/lessons/recursion-v1/concept-1-step-0.mp4",
+      "still": "/lessons/recursion-v1/concept-1-step-0.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-1-step-1.mp4",
+      "still": "/lessons/recursion-v1/concept-1-step-1.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-1-step-2.mp4",
+      "still": "/lessons/recursion-v1/concept-1-step-2.png"
+    }
+  ],
+  [
+    {
+      "video": "/lessons/recursion-v1/concept-2-step-0.mp4",
+      "still": "/lessons/recursion-v1/concept-2-step-0.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-2-step-1.mp4",
+      "still": "/lessons/recursion-v1/concept-2-step-1.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-2-step-2.mp4",
+      "still": "/lessons/recursion-v1/concept-2-step-2.png"
+    },
+    {
+      "video": "/lessons/recursion-v1/concept-2-step-3.mp4",
+      "still": "/lessons/recursion-v1/concept-2-step-3.png"
+    }
+  ]
+]
