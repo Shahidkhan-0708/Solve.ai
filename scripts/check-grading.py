@@ -21,7 +21,9 @@ async def run():
     dataset = json.loads((ROOT / 'tests' / 'grading-cases.json').read_text())
     assert dataset['cases'] and len({c['id'] for c in dataset['cases']}) == len(dataset['cases'])
     outcomes = []
-    for case in dataset['cases']:
+    for index, case in enumerate(dataset['cases']):
+        if index:
+            await asyncio.sleep(13)
         evidence = [{'id': 'reference', 'text': DEMO_TEXT}]
         if case.get('extra_source'):
             evidence.append({'id': 'conflict', 'text': case['extra_source']})

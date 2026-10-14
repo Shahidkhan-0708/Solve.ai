@@ -1,9 +1,17 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 export const metadata: Metadata = {
-  title: 'Solve — Make it click.',
-  description: 'Turn your material into understanding. Learn, explain it back, and find the next step that matters.',
+  title: 'Solve',
+  description: 'Learn from your material and track your understanding.',
+  applicationName: 'Solve',
+  appleWebApp: { capable: true, title: 'Solve', statusBarStyle: 'default' },
+  icons: {
+    icon: '/icons/solve-192.png',
+    apple: '/icons/solve-180.png',
+  },
 };
+export const viewport: Viewport = { themeColor: '#161616' };
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>{children}</body></html>;
 }

@@ -129,6 +129,7 @@ class Intake(Strict):
     level: Literal["starting", "some", "confident"] = "some"
     minutes: int = Field(ge=5, le=600, default=30)
     deadline: str = Field(max_length=32, default="")
+    target: str = Field(max_length=120, default="")
 
 
 class TextInput(Strict):
@@ -148,6 +149,13 @@ class AttemptInput(Strict):
     task_id: str = Field(min_length=1, max_length=80)
     answer: str = Field(min_length=1, max_length=5000)
     recall: Literal["hard", "good", "easy"] = "good"
+    spent_minutes: int = Field(ge=0, le=600, default=0)
+
+
+class PlanInput(Strict):
+    remaining_minutes: int | None = Field(ge=0, le=600, default=None)
+    topic_marks: list[int | None] | None = Field(max_length=8, default=None)
+    preferred_concept: int | None = Field(ge=0, le=7, default=None)
 
 
 class HelpInput(Strict):
@@ -180,6 +188,7 @@ class Concept(Strict):
     repair: Question
     review: Question
     teach_back: Question | None = None
+    estimated_minutes: int = Field(ge=5, le=120, default=15)
 
 
 class Course(Strict):
@@ -220,7 +229,8 @@ def save(state, owner):
 
 def new_state(intake, demo=False):
     return {"id": secrets.token_hex(12), "goal": intake.goal.strip(), "level": intake.level,
-            "minutes": intake.minutes, "deadline": intake.deadline, "demo": demo,
+            "minutes": intake.minutes, "deadline": intake.deadline, "target": intake.target.strip(), "demo": demo,
+            "remaining_minutes": intake.minutes, "spent_minutes": 0,
             "sources": [], "course": None, "progress": [], "task": None, "attempts": [],
             "feedback": None, "reports": [], "used_passages": [], "updated": time.time()}
 
@@ -230,16 +240,30 @@ def flat_passages(state):
 
 
 def public_state(state):
-    result = {k: v for k, v in state.items() if k not in {"course", "attempts"}}
+    result = {k: v for k, v in state.items() if k not in {"course", "attempts", "pending_task"}}
     result["attempt_count"] = len(state["attempts"])
-    result["daily_queue"] = learning_queue(state)[:max(1, state["minutes"]//5)]
+    result["remaining_minutes"] = remaining_time(state)
+    result["spent_minutes"] = state.get("spent_minutes", 0)
+    result["target"] = state.get("target", "")
+    result["topic_marks"] = state.get("topic_marks", [None] * len(state["progress"]))
+    result["ranked_topics"] = learning_queue(state)
+    result["daily_queue"] = []
+    available = result["remaining_minutes"]
+    for entry in result["ranked_topics"]:
+        if available <= 0:
+            break
+        allocated = min(entry["minutes"], available)
+        result["daily_queue"].append({**entry, "minutes": allocated, "partial": allocated < entry["minutes"]})
+        available -= allocated
+    result["planned_minutes"] = result["remaining_minutes"] - available
     result["progress"] = [{k: v for k, v in p.items() if k not in {"review_card", "review_logs"}} for p in state["progress"]]
     if result["task"]:
         result["task"] = {k: v for k, v in result["task"].items() if not k.startswith("_")}
         result["task"]["assisted"] = state["task"].get("_assisted", state["task"].get("show_lesson", False))
     if state["course"]:
         result["course"] = {"title": state["course"]["title"], "concepts": [
-            {k: c[k] for k in ("title", "explanation", "steps", "prerequisites", "references")}
+            {**{k: c[k] for k in ("title", "explanation", "steps", "prerequisites", "references")},
+             "estimated_minutes": c.get("estimated_minutes", 15)}
             for c in state["course"]["concepts"]
         ]}
     else:
@@ -408,6 +432,7 @@ async def generate(model, prompt, owner):
                     await asyncio.sleep(1)
                     continue
                 if response.status_code != 200:
+                    logger.warning("Gemini request failed HTTP=%s", response.status_code)
                     raise HTTPException(502, "The AI service could not complete this request. Your session is saved; retry later.")
                 payload = response.json()
                 candidates = payload.get("candidates", [])
@@ -426,7 +451,10 @@ async def generate(model, prompt, owner):
                     await asyncio.sleep(1)
                     continue
                 raise HTTPException(504, "The AI service timed out. Retry; your saved work has not changed.")
-            except (ValidationError, KeyError, ValueError, TypeError, IndexError, AttributeError):
+            except ValidationError as exc:
+                logger.warning("Gemini schema failure task=%s types=%s", model.__name__, sorted({e["type"] for e in exc.errors(include_input=False, include_context=False)}))
+                raise HTTPException(502, "The AI response could not be validated. Please retry.")
+            except (KeyError, ValueError, TypeError, IndexError, AttributeError):
                 raise HTTPException(502, "The AI response could not be validated. Please retry.")
 
 def validate_course(course, passages):
@@ -466,27 +494,73 @@ def task_for(state, index, phase):
             "_answer": concept[phase]["expected_answer"], "_criteria": concept[phase].get("criteria", [])}
 
 
+def remaining_time(state):
+    # shortcut: older attempts lack time logs; begin accounting from the next explicitly logged step.
+    return state.get("remaining_minutes", state["minutes"])
+
+
 def learning_queue(state):
     if not state["course"]:
         return []
     now = time.time()
     entries = []
+    concepts = state["course"]["concepts"]
+    marks = state.get("topic_marks", [None] * len(concepts))
+    weighted = len(marks) == len(concepts) and all(m is not None for m in marks)
+    completed = {i for i, p in enumerate(state["progress"]) if p["status"] in {"demonstrated", "rechecked"}}
     for i, p in enumerate(state["progress"]):
         due = p["status"] in {"demonstrated", "rechecked"} and p.get("review_at") is not None and p["review_at"] <= now
         if due or p["status"] in {"new", "introduced"}:
             phase = "review" if due else "diagnostic" if p["status"] == "new" else "practice"
-            entries.append({"concept": i, "phase": phase, "reason": "Due recall check" if due else "Repair and apply the missing step" if p["status"] == "introduced" else "Establish your starting point", "minutes": 5})
-    entries.sort(key=lambda e: (e["phase"] != "review", state["progress"][e["concept"]].get("review_at") or 0, e["concept"]))
-    if state.get("task"):
-        task = state["task"]
-        entries = [e for e in entries if e["concept"] != task["concept"]]
-        entries.insert(0, {"concept": task["concept"], "phase": task["phase"], "reason": "Finish your saved task", "minutes": 5})
-    return entries
+            estimate = concepts[i].get("estimated_minutes", 15)
+            reason = "Due recall check" if due else "Confirmed missing reasoning: repair before moving on" if p.get("needs_repair") else "Teach back and apply the concept" if p["status"] == "introduced" else "Establish your starting point, then teach back and apply"
+            score = marks[i] / estimate if weighted else None
+            if score is not None:
+                reason += f"; {marks[i]} supplied marks / {estimate} estimated minutes"
+            entries.append({"concept": i, "phase": phase, "reason": reason,
+                            "minutes": 5 if due else estimate, "marks_per_minute": score,
+                            "ready": all(p in completed for p in concepts[i]["prerequisites"])})
+    preferred = state.get("preferred_concept")
+    entries.sort(key=lambda e: (e["concept"] != preferred, e["phase"] != "review",
+                               not state["progress"][e["concept"]].get("needs_repair", False),
+                               -(e["marks_per_minute"] or 0), e["concept"]))
+    ordered = []
+    planned = set(completed)
+    while entries:
+        entry = next((e for e in entries if all(p in planned for p in concepts[e["concept"]]["prerequisites"])), None)
+        if entry is None:
+            break
+        entries.remove(entry)
+        if not entry["ready"]:
+            entry["reason"] = "After prerequisites: " + entry["reason"]
+        if entry["concept"] == preferred:
+            entry["reason"] = "Your chosen next topic; " + entry["reason"]
+        ordered.append(entry)
+        planned.add(entry["concept"])
+    active = state.get("task") or state.get("pending_task")
+    if active:
+        entry = next((e for e in ordered if e["concept"] == active["concept"]), None)
+        if entry:
+            ordered.remove(entry)
+            entry.update(phase=active["phase"], reason="Finish your saved step; " + entry["reason"])
+            ordered.insert(0, entry)
+    return ordered
 
 
 def next_task(state):
-    entries = learning_queue({**state, "task": None})
-    return task_for(state, entries[0]["concept"], entries[0]["phase"]) if entries else None
+    entries = [e for e in learning_queue({**state, "task": None}) if e["ready"]]
+    return task_for(state, entries[0]["concept"], entries[0]["phase"]) if entries and remaining_time(state) > 0 else None
+
+
+async def prepare_task(state, owner):
+    if state["task"] or remaining_time(state) <= 0:
+        return
+    pending = state.get("pending_task") or next_task(state)
+    if pending:
+        state["task"] = await fresh_task(state, pending["concept"], pending["phase"], owner)
+        state.pop("pending_task", None)
+        if state.get("preferred_concept") == state["task"]["concept"]:
+            state.pop("preferred_concept", None)
 
 
 def schedule_review(progress, rating, now):
@@ -576,7 +650,7 @@ def create(intake: Intake, request: Request):
 @app.post("/api/demo")
 def demo(request: Request):
     spend("create:"+request.state.owner, 30)
-    state = demo_state(Intake(goal="Understand recursion and trace factorial calls", minutes=20))
+    state = demo_state(Intake(goal="Understand recursion and trace factorial calls", minutes=45))
     save(state, request.state.owner)
     return public_state(state)
 
@@ -586,9 +660,7 @@ async def session(sid: str, request: Request):
     async with mutation_lock:
         state = load(sid, request.state.owner)
         if state["course"] and not state["task"]:
-            state["task"] = next_task(state)
-            if state["task"] and state["task"]["phase"] == "review":
-                state["task"] = await fresh_task(state, state["task"]["concept"], "review", request.state.owner)
+            await prepare_task(state, request.state.owner)
             save(state, request.state.owner)
         return public_state(state)
 
@@ -658,8 +730,8 @@ async def start(sid: str, payload: StartInput, request: Request):
     passages = select_passages(state)
     evidence = [{"id": p["id"], "text": p["text"]} for p in passages]
     course = await generate(Course, json.dumps({
-        "instruction": "Create a compact learning journey of 3 to 6 concepts in prerequisite order. Explain from the source, identify conflicts openly, and use short worked steps. Include exact source quotations (at least 15 characters) and passage IDs. For each concept write four DISTINCT short-answer questions: diagnostic, practice, repair, review. They must test new applications of the same idea, not repeat an answer. Supply expected_answer and 2 to 4 concise reasoning criteria for every question. Include a distinct teach_back question asking the learner to explain why the concept works in their own words; never claim guaranteed mastery. Prerequisites are earlier zero-based concept indices. Use no markdown tables or raw HTML.",
-        "goal": state["goal"], "starting_level": state["level"], "available_minutes": state["minutes"], "deadline": state["deadline"],
+        "instruction": "Create a compact learning journey of 3 to 6 concepts in prerequisite order. Explain from the source, identify conflicts openly, and use short worked steps. Include exact source quotations (at least 15 characters) and passage IDs. For each concept write four DISTINCT short-answer questions: diagnostic, practice, repair, review. They must test new applications of the same idea, not repeat an answer. Supply expected_answer and 2 to 4 concise reasoning criteria for every question. Include a distinct teach_back question asking the learner to explain why the concept works in their own words. Estimate 5 to 120 minutes per concept for explanation, teach-back and an independent application, considering the learner's starting level. The application will time-box the plan; do not invent exam weights, pass probabilities or guaranteed marks. Prerequisites are earlier zero-based concept indices. Use no markdown tables or raw HTML.",
+        "goal": state["goal"], "target": state.get("target", ""), "starting_level": state["level"], "available_minutes": remaining_time(state), "deadline": state["deadline"],
         "sources": evidence
     }), request.state.owner)
     validate_course(course, passages)
@@ -667,6 +739,28 @@ async def start(sid: str, payload: StartInput, request: Request):
         if not concept.teach_back or any(not q.criteria or any(not c.strip() for c in q.criteria) for q in (concept.diagnostic, concept.practice, concept.repair, concept.review, concept.teach_back)):
             raise HTTPException(502, "The plan was missing teach-back reasoning criteria. Retry with a narrower goal.")
     install_course(state, course, [p["id"] for p in passages])
+    save(state, request.state.owner)
+    return public_state(state)
+
+
+@app.post("/api/sessions/{sid}/plan")
+async def update_plan(sid: str, payload: PlanInput, request: Request):
+    state = load(sid, request.state.owner)
+    if not state["course"]:
+        raise HTTPException(409, "Build your learning journey before editing its plan.")
+    if payload.topic_marks is not None:
+        if len(payload.topic_marks) != len(state["progress"]) or any(m is not None and not 0 <= m <= 1000 for m in payload.topic_marks):
+            raise HTTPException(422, "Supply one mark weight per topic, from 0 to 1000, or leave it blank.")
+        state["topic_marks"] = payload.topic_marks
+    if payload.remaining_minutes is not None:
+        state["remaining_minutes"] = payload.remaining_minutes
+    if "preferred_concept" in payload.model_fields_set:
+        chosen = payload.preferred_concept
+        if chosen is not None and not any(e["concept"] == chosen and e["ready"] for e in learning_queue(state)):
+            raise HTTPException(422, "Choose an unfinished or due topic whose prerequisites are demonstrated.")
+        state["preferred_concept"] = chosen
+    save(state, request.state.owner)
+    await prepare_task(state, request.state.owner)
     save(state, request.state.owner)
     return public_state(state)
 
@@ -687,6 +781,8 @@ async def attempt(sid: str, payload: AttemptInput, request: Request):
     task = state["task"]
     if not task or payload.task_id != task["id"]:
         raise HTTPException(409, "This question has changed. Reload your session before answering.")
+    if remaining_time(state) <= 0:
+        raise HTTPException(409, "Your study time is used. Set a new time budget to continue the saved step.")
     if len(state["attempts"]) >= 1000:
         raise HTTPException(429, "This session has reached its attempt limit. Start a new session.")
     concept = state["course"]["concepts"][task["concept"]]
@@ -705,33 +801,40 @@ async def attempt(sid: str, payload: AttemptInput, request: Request):
     attempt_id = secrets.token_hex(12)
     state["attempts"].append({"id": attempt_id, "task_id": task["id"], "concept": task["concept"], "phase": task["phase"],
                               "prompt": task["prompt"], "answer": payload.answer, "status": feedback.status, "at": now,
-                              "assisted": assisted, "criteria": evidence})
+                              "assisted": assisted, "criteria": evidence, "spent_minutes": payload.spent_minutes})
     state["feedback"] = {**feedback.model_dump(), "concept": task["concept"], "references": concept["references"],
                          "answered_prompt": task["prompt"], "learner_answer": payload.answer, "attempt_id": attempt_id,
                          "assisted": assisted, "evidence": evidence, "at": now}
     progress["last_evidence"] = {"attempt_id": attempt_id, "status": feedback.status, "phase": task["phase"], "assisted": assisted, "at": now}
-    save(state, request.state.owner)
+    state["remaining_minutes"] = max(0, remaining_time(state) - payload.spent_minutes)
+    state["spent_minutes"] = state.get("spent_minutes", 0) + payload.spent_minutes
     if feedback.status == "correct":
         if task["phase"] in {"diagnostic", "repair", "teach_back"} or assisted:
             progress["status"] = "introduced"
             phase = "teach_back" if concept.get("teach_back") and task["phase"] in {"diagnostic", "repair"} else "practice"
-            state["task"] = await fresh_task(state, task["concept"], phase, request.state.owner)
+            state["task"] = None
+            state["pending_task"] = {"concept": task["concept"], "phase": phase}
         else:
             delayed = task["phase"] == "review" and progress.get("review_at") is not None and progress["review_at"] <= now
             progress["status"] = "rechecked" if delayed else "demonstrated"
             progress["successes"] += 1
             progress["independent_successes"] = progress.get("independent_successes", 0)+1
+            progress["needs_repair"] = False
             if delayed or not progress.get("review_card"):
                 schedule_review(progress, {"hard": Rating.Hard, "good": Rating.Good, "easy": Rating.Easy}[payload.recall] if delayed else Rating.Good, now)
-            state["task"] = next_task(state)
+            state["task"] = None
     elif feedback.status != "unable_to_assess":
         if task["phase"] == "review":
             schedule_review(progress, Rating.Again, now)
         progress["status"] = "introduced"
+        progress["needs_repair"] = True
         if task["phase"] == "repair":
             state["task"] = task
         else:
-            state["task"] = await fresh_task(state, task["concept"], "repair", request.state.owner)
+            state["task"] = None
+            state["pending_task"] = {"concept": task["concept"], "phase": "repair"}
+    save(state, request.state.owner)
+    await prepare_task(state, request.state.owner)
     save(state, request.state.owner)
     return public_state(state)
 

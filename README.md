@@ -121,3 +121,13 @@ Container configuration is provided; container execution and a public deployment
 ## Pilot and demo
 
 See PILOT.md for the reviewed source pack, judging walkthrough, reference checks, evaluation protocol, and release gates. Draft participant forms, unseen pre/post/delayed assessments, the private reviewer rubric, and an empty results sheet are in pilot/. They require independent subject review and actual consenting participants. The recursion pack is the only locally reviewed subject pack; broad subject accuracy remains an evaluation task.
+
+## Install Solve
+
+Solve includes a web app manifest and branded home-screen icons. In Chrome or Edge, open the site and choose Install Solve from the browser menu or address bar. On iPhone or iPad, open it in Safari, choose Share, then Add to Home Screen. The installed app opens in a standalone window.
+
+Public installation requires HTTPS; localhost works for development. This version requires an internet connection for lessons and saved sessions. It does not cache private learning data or support offline lessons. No push notifications are requested.
+
+Run the installation metadata check with both services available:
+
+    npm run test:e2e -- --grep PWA
