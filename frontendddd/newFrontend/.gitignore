@@ -1,0 +1,8 @@
+node_modules/
+.next/
+public/sw.js
+test-results/
+*.tsbuildinfo
+public/offline/
+SOLVE-frontend.zip
+.artifact-save/

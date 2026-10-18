@@ -1,0 +1,13 @@
+# SOLVE v0.3 verification
+
+Production Next.js build passed and generated 68 static pages, including all 42 individual export routes. TypeScript checks and 24 automated tests pass. Imported JSX source checksums and every exported CSS declaration are verified. All changes are inside newFrontend. No AGENTS.md was present. Installed Next.js App Router, CSS, client/server, local fonts and PWA documentation was read before integration.
+
+Browser checks completed: safe user text rendering; active transcript reload; chat-to-graph navigation; graph animation, zoom and list/map switching; practice answer validation and correct feedback; teach-back submission; local evidence counts; attempt drawer opening and Escape dismissal; saved profile restoration; reduced-motion rendering; Study goal intake and plan creation; mobile drawer opening and Escape dismissal. Application console errors were absent (extension metadata errors were excluded).
+
+42 exported screens were opened through matching-size iframe viewports and checked for page overflow and broken image requests. Missing image placeholders were explicit. Independent source HTML was generated from the JSX and original CSS. Screenshot comparisons were attempted, but captures became unreliable and timed out. Earlier captures include source revisions and moving animations; they are not a final zero-difference certification. The original screenshots for these 42 exports were not uploaded, so screenshot-perfect parity cannot be certified. The earlier ZIP contains only one desktop chat screenshot.
+
+Remaining design gaps: two profile-image binaries, one lesson-background binary, and a dedicated mobile three-month Study assessment. The latter is visibly labelled instead of claiming the mobile Study home is an exact assessment variant. Matching JetBrains Mono was retrieved, validated and self-hosted; Inter and Material Symbols are local. Seven missing logo references were resolved with the user-supplied logo.
+
+PWA manifest/icon sizes and the actual generated worker's installation, offline-shell fallback, atomic failure rollback, private-cache restrictions and cache cleanup pass automated runtime tests. Native browser installation and true browser offline reload could not be verified here: the managed preview is HTTP on a non-localhost host, and Playwright Chromium downloads returned invalid zero-byte archives. Run the updated browser suite against a production localhost or HTTPS server to complete these checks.
+
+Authentication, AI replies/evaluation, voice, and PDF/DOCX/image analysis remain explicitly local demo behavior. Exported progress and source documents are example design data. User attempts are stored independently.

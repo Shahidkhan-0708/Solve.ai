@@ -1,0 +1,23 @@
+{
+  "reference_pixels": [
+    1600,
+    1280
+  ],
+  "capture_pixels": [
+    1600,
+    1280
+  ],
+  "css_viewport": [
+    1280,
+    1024
+  ],
+  "capture_scale": 1.25,
+  "capture_method": "Real app in a fixed CSS viewport iframe; full-page browser JPEG capture",
+  "mean_absolute_rgb_delta_0_to_255": [
+    2.585876953125,
+    2.56732373046875,
+    2.56467626953125
+  ],
+  "pixel_identical": false,
+  "limits": "Browser capture is JPEG and rasterization differs from the supplied PNG. No mobile reference was supplied."
+}

@@ -1,0 +1,371 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Planned blueprint: strategy and course construction",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/09-planned-strategy/09-planned-strategy.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "evidence",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Approved evidence",
+      "sublabel": "From evidence approval map",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 29,
+          "end_line": 33
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "strategy",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Strategy agent",
+      "sublabel": "Time, marks, prerequisites",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 33,
+          "end_line": 34
+        }
+      ],
+      "tag": "Proposed",
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "method",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Choose technique",
+      "sublabel": "Fit constraints and gaps",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 34,
+          "end_line": 37
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "sprint",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Focused preparation",
+      "sublabel": "Worked examples + recall",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 35,
+          "end_line": 38
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "teach",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Teach back and apply",
+      "sublabel": "Explain conceptual gaps",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 36,
+          "end_line": 39
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "spaced",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Distributed practice",
+      "sublabel": "Retrieval + delayed review",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 37,
+          "end_line": 40
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "builder",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Course builder",
+      "sublabel": "Concepts + answer criteria",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 38,
+          "end_line": 41
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "validate",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Validate output",
+      "sublabel": "Quotes, order, uniqueness",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 41,
+          "end_line": 43
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "save",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Save and explain plan",
+      "sublabel": "Commit accepted course",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 43,
+          "end_line": 47
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "learn",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Begin learning loop",
+      "sublabel": "Next planned workflow",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 47,
+          "end_line": 49
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "retry",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Narrow or retry",
+      "sublabel": "Keep prior saved state",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 42,
+          "end_line": 42
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "continue-sprint-builder",
+      "lane": "process",
+      "col": 0,
+      "type": "cloud",
+      "label": "Course builder",
+      "sublabel": "Concepts + answer criteria",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 38,
+          "end_line": 41
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "continue-spaced-builder",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Course builder",
+      "sublabel": "Concepts + answer criteria",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 38,
+          "end_line": 41
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "continue-retry-evidence",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Approved evidence",
+      "sublabel": "From evidence approval map",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 29,
+          "end_line": 33
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 300,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "evidence-strategy",
+      "from": "evidence",
+      "to": "strategy"
+    },
+    {
+      "id": "strategy-method",
+      "from": "strategy",
+      "to": "method"
+    },
+    {
+      "id": "method-sprint",
+      "from": "method",
+      "to": "sprint",
+      "label": "Urgent"
+    },
+    {
+      "id": "method-teach",
+      "from": "method",
+      "to": "teach",
+      "label": "Concept gaps",
+      "role": "branch"
+    },
+    {
+      "id": "method-spaced",
+      "from": "method",
+      "to": "spaced",
+      "label": "More time",
+      "role": "branch"
+    },
+    {
+      "id": "sprint-builder",
+      "from": "sprint",
+      "to": "continue-sprint-builder"
+    },
+    {
+      "id": "teach-builder",
+      "from": "teach",
+      "to": "builder"
+    },
+    {
+      "id": "spaced-builder",
+      "from": "spaced",
+      "to": "continue-spaced-builder"
+    },
+    {
+      "id": "builder-validate",
+      "from": "builder",
+      "to": "validate"
+    },
+    {
+      "id": "validate-save",
+      "from": "validate",
+      "to": "save",
+      "label": "Valid"
+    },
+    {
+      "id": "save-learn",
+      "from": "save",
+      "to": "learn"
+    },
+    {
+      "id": "validate-retry",
+      "from": "validate",
+      "to": "retry",
+      "label": "Invalid",
+      "role": "error"
+    },
+    {
+      "id": "retry-evidence",
+      "from": "retry",
+      "to": "continue-retry-evidence",
+      "label": "Approved scope",
+      "role": "branch"
+    }
+  ],
+  "mainPath": [
+    "evidence",
+    "strategy",
+    "method",
+    "teach",
+    "builder",
+    "validate",
+    "save",
+    "learn"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Shared planned infrastructure",
+      "items": [
+        "The shared AI gateway supplies evidence-only prompts, typed output, quotas and bounded retries to the builder, assessor and fresh-question roles.",
+        "Private session storage retains approved sources, the accepted plan, tasks, attempts and reports.",
+        "Technique selection is a proposed product choice. This blueprint makes no measured effectiveness or guaranteed score claim."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

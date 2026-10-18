@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Cache lookup flow",
+    "locale": "en",
+    "output": ".archify/architecture-cache-fallback-20261018-000757/cache-fallback.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "browser", "type": "frontend", "label": "Browser", "sublabel": "Client", "pos": [40, 40], "size": [140, 64] },
+    { "id": "api", "type": "backend", "label": "API", "sublabel": "Request handler", "pos": [280, 40], "size": [140, 64] },
+    { "id": "redis", "type": "database", "label": "Redis cache", "sublabel": "Lookup first", "pos": [520, 40], "size": [140, 64] },
+    { "id": "postgres", "type": "database", "label": "PostgreSQL", "sublabel": "API reads on miss", "pos": [760, 40], "size": [150, 64] }
+  ],
+  "connections": [
+    { "id": "request", "from": "browser", "to": "api", "label": "Request" },
+    { "id": "cache-lookup", "from": "api", "to": "redis", "label": "Cache lookup" },
+    { "id": "database-fallback", "from": "redis", "to": "postgres", "label": "Cache miss" }
+  ]
+}

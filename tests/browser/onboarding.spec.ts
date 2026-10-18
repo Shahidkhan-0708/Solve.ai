@@ -1,0 +1,35 @@
+import { test, expect } from '@playwright/test';
+import { mkdir } from 'node:fs/promises';
+
+test('welcome leads through separate setup pages and Back preserves answers', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('img', { name: 'Solve', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Learning sessions' })).toHaveCount(0);
+  await mkdir('tmp/ui', { recursive: true });
+  await expect(page.locator('.welcome-content')).toHaveCSS('opacity', '1');
+  await page.screenshot({ path: 'tmp/ui/welcome-desktop.png', fullPage: true });
+  await page.getByRole('button', { name: 'Start a learning journey' }).click();
+  await expect(page).toHaveURL(/\/study\/goal$/);
+  await expect(page.getByRole('heading', { name: 'What do you want to study?' })).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.getByLabel('Your learning goal').fill('Understand cell division');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/time$/);
+  await page.getByLabel('Available time today').selectOption('60');
+  await page.getByRole('button', { name: 'Back', exact: true }).click();
+  await expect(page.getByLabel('Your learning goal')).toHaveValue('Understand cell division');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page.getByLabel('Available time today')).toHaveValue('60');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/target$/);
+  await page.getByLabel('Target grade or outcome (optional)').fill('Explain mitosis independently');
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await expect(page).toHaveURL(/\/study\/material$/);
+  await expect(page.getByRole('heading', { name: 'Source material' })).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('link', { name: 'Home', exact: true }).first().click();
+  await expect(page).toHaveURL('/');
+  await expect(page.locator('.welcome-content')).toHaveCSS('opacity', '1');
+  await page.screenshot({ path: 'tmp/ui/welcome-mobile.png', fullPage: true });
+});

@@ -1,0 +1,754 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Planned blueprint: assess, adapt and return",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/10-planned-learning/10-planned-learning.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "load",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Load saved work",
+      "sublabel": "Or newly accepted plan",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 8,
+          "end_line": 8
+        }
+      ],
+      "yOffset": -840,
+      "width": 160
+    },
+    {
+      "id": "next",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Choose next task",
+      "sublabel": "Concept or due review",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 47,
+          "end_line": 49
+        }
+      ],
+      "yOffset": -720,
+      "width": 160
+    },
+    {
+      "id": "task",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Diagnostic, practice, repair",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 49,
+          "end_line": 50
+        }
+      ],
+      "yOffset": -600,
+      "width": 160
+    },
+    {
+      "id": "answer",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Answer / teach back",
+      "sublabel": "Learner reasoning",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 50,
+          "end_line": 51
+        }
+      ],
+      "yOffset": -480,
+      "width": 160
+    },
+    {
+      "id": "assess",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Assessment agent",
+      "sublabel": "Criteria and evidence",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 51,
+          "end_line": 52
+        }
+      ],
+      "yOffset": -360,
+      "width": 160
+    },
+    {
+      "id": "result",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Assessment result",
+      "sublabel": "Uncertainty or evidence",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 52,
+          "end_line": 57
+        }
+      ],
+      "yOffset": -240,
+      "width": 160
+    },
+    {
+      "id": "clarify",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Explain uncertainty",
+      "sublabel": "Keep task and progress",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 53,
+          "end_line": 53
+        }
+      ],
+      "yOffset": -240,
+      "width": 160
+    },
+    {
+      "id": "repair",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Explain missing step",
+      "sublabel": "Suspected gap + example",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 54,
+          "end_line": 55
+        }
+      ],
+      "yOffset": 0,
+      "width": 160
+    },
+    {
+      "id": "fresh",
+      "lane": "process",
+      "col": 0,
+      "type": "cloud",
+      "label": "Fresh-question agent",
+      "sublabel": "Unseen question before AI",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 55,
+          "end_line": 56
+        }
+      ],
+      "yOffset": 120,
+      "width": 160
+    },
+    {
+      "id": "track",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Update progress",
+      "sublabel": "Schedule delayed recall",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 57,
+          "end_line": 58
+        }
+      ],
+      "yOffset": -120,
+      "width": 160
+    },
+    {
+      "id": "left",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "More work or due review?",
+      "sublabel": "Continue or report",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 58,
+          "end_line": 60
+        }
+      ],
+      "yOffset": 0,
+      "width": 160
+    },
+    {
+      "id": "report",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Show remaining gaps",
+      "sublabel": "Coverage + next review",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 60,
+          "end_line": 61
+        }
+      ],
+      "yOffset": 120,
+      "width": 160
+    },
+    {
+      "id": "return",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Pause and return",
+      "sublabel": "Reload when recall is due",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 61,
+          "end_line": 62
+        }
+      ],
+      "yOffset": 240,
+      "width": 160
+    },
+    {
+      "id": "adapt",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Adapt strategy",
+      "sublabel": "Within approved evidence",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 63,
+          "end_line": 64
+        }
+      ],
+      "tag": "Proposed",
+      "yOffset": 0,
+      "width": 160
+    },
+    {
+      "id": "issue",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Flag an issue",
+      "sublabel": "Explanation or assessment",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 67,
+          "end_line": 68
+        }
+      ],
+      "yOffset": -600,
+      "width": 160
+    },
+    {
+      "id": "review",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Save for human review",
+      "sublabel": "No prompt rewriting",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 68,
+          "end_line": 69
+        }
+      ],
+      "yOffset": -480,
+      "width": 160
+    },
+    {
+      "id": "store",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Private session store",
+      "sublabel": "Sources, tasks, attempts",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 70,
+          "end_line": 74
+        }
+      ],
+      "yOffset": -120,
+      "width": 160
+    },
+    {
+      "id": "gateway",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Shared AI gateway",
+      "sublabel": "Evidence, schema, quotas",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 75,
+          "end_line": 78
+        }
+      ],
+      "yOffset": 600,
+      "width": 160
+    },
+    {
+      "id": "continue-clarify-task",
+      "lane": "process",
+      "col": 0,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Diagnostic, practice, repair",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 49,
+          "end_line": 50
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -120,
+      "width": 160
+    },
+    {
+      "id": "continue-fresh-task",
+      "lane": "process",
+      "col": 0,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Diagnostic, practice, repair",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 49,
+          "end_line": 50
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 240,
+      "width": 160
+    },
+    {
+      "id": "continue-result-fresh",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Fresh-question agent",
+      "sublabel": "Unseen question before AI",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 55,
+          "end_line": 56
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -240,
+      "width": 160
+    },
+    {
+      "id": "continue-left-next",
+      "lane": "process",
+      "col": 5,
+      "type": "backend",
+      "label": "Choose next task",
+      "sublabel": "Concept or due review",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 47,
+          "end_line": 49
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 120,
+      "width": 160
+    },
+    {
+      "id": "continue-return-load",
+      "lane": "process",
+      "col": 0,
+      "type": "database",
+      "label": "Load saved work",
+      "sublabel": "Or newly accepted plan",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 8,
+          "end_line": 8
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 480,
+      "width": 160
+    },
+    {
+      "id": "continue-adapt-next",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Choose next task",
+      "sublabel": "Concept or due review",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 47,
+          "end_line": 49
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 120,
+      "width": 160
+    },
+    {
+      "id": "continue-review-task",
+      "lane": "process",
+      "col": 4,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Diagnostic, practice, repair",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 49,
+          "end_line": 50
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -360,
+      "width": 160
+    },
+    {
+      "id": "continue-review-store",
+      "lane": "process",
+      "col": 5,
+      "type": "database",
+      "label": "Private session store",
+      "sublabel": "Sources, tasks, attempts",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 70,
+          "end_line": 74
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -360,
+      "width": 160
+    },
+    {
+      "id": "continue-store-load",
+      "lane": "process",
+      "col": 5,
+      "type": "database",
+      "label": "Load saved work",
+      "sublabel": "Or newly accepted plan",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 8,
+          "end_line": 8
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -120,
+      "width": 160
+    },
+    {
+      "id": "continue-gateway-assess",
+      "lane": "process",
+      "col": 0,
+      "type": "cloud",
+      "label": "Assessment agent",
+      "sublabel": "Criteria and evidence",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 51,
+          "end_line": 52
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 720,
+      "width": 160
+    },
+    {
+      "id": "continue-gateway-fresh",
+      "lane": "process",
+      "col": 1,
+      "type": "cloud",
+      "label": "Fresh-question agent",
+      "sublabel": "Unseen question before AI",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 55,
+          "end_line": 56
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 840,
+      "width": 160
+    },
+    {
+      "id": "continue-intro-task",
+      "lane": "process",
+      "col": 5,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Diagnostic, practice, repair",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 49,
+          "end_line": 50
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -240,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "load-next",
+      "from": "load",
+      "to": "next"
+    },
+    {
+      "id": "next-task",
+      "from": "next",
+      "to": "task"
+    },
+    {
+      "id": "task-answer",
+      "from": "task",
+      "to": "answer"
+    },
+    {
+      "id": "answer-assess",
+      "from": "answer",
+      "to": "assess"
+    },
+    {
+      "id": "assess-result",
+      "from": "assess",
+      "to": "result"
+    },
+    {
+      "id": "result-clarify",
+      "from": "result",
+      "to": "clarify",
+      "label": "Cannot assess",
+      "role": "branch"
+    },
+    {
+      "id": "clarify-task",
+      "from": "clarify",
+      "to": "continue-clarify-task",
+      "label": "Same task",
+      "role": "branch"
+    },
+    {
+      "id": "result-repair",
+      "from": "result",
+      "to": "repair",
+      "label": "Wrong / partial",
+      "role": "branch"
+    },
+    {
+      "id": "repair-fresh",
+      "from": "repair",
+      "to": "fresh"
+    },
+    {
+      "id": "result-fresh",
+      "from": "result",
+      "to": "continue-result-fresh",
+      "label": "Intro / repair correct",
+      "role": "branch"
+    },
+    {
+      "id": "fresh-task",
+      "from": "fresh",
+      "to": "continue-fresh-task",
+      "label": "New application",
+      "role": "branch"
+    },
+    {
+      "id": "result-track",
+      "from": "result",
+      "to": "track",
+      "label": "Practice / review correct"
+    },
+    {
+      "id": "track-left",
+      "from": "track",
+      "to": "left"
+    },
+    {
+      "id": "left-next",
+      "from": "left",
+      "to": "continue-left-next",
+      "label": "Yes",
+      "role": "branch"
+    },
+    {
+      "id": "left-report",
+      "from": "left",
+      "to": "report",
+      "label": "No"
+    },
+    {
+      "id": "report-return",
+      "from": "report",
+      "to": "return"
+    },
+    {
+      "id": "return-load",
+      "from": "return",
+      "to": "continue-return-load",
+      "label": "Recall due",
+      "role": "branch"
+    },
+    {
+      "id": "track-adapt",
+      "from": "track",
+      "to": "adapt",
+      "label": "Optional adaptation",
+      "role": "branch"
+    },
+    {
+      "id": "adapt-next",
+      "from": "adapt",
+      "to": "continue-adapt-next",
+      "label": "Reprioritize",
+      "role": "branch"
+    },
+    {
+      "id": "task-issue",
+      "from": "task",
+      "to": "issue",
+      "label": "Flag issue",
+      "role": "branch"
+    },
+    {
+      "id": "issue-review",
+      "from": "issue",
+      "to": "review"
+    },
+    {
+      "id": "review-task",
+      "from": "review",
+      "to": "continue-review-task",
+      "label": "Continue",
+      "role": "branch"
+    },
+    {
+      "id": "track-store",
+      "from": "track",
+      "to": "store",
+      "label": "Save evidence",
+      "role": "branch"
+    },
+    {
+      "id": "review-store",
+      "from": "review",
+      "to": "continue-review-store",
+      "label": "Save report",
+      "role": "branch"
+    },
+    {
+      "id": "store-load",
+      "from": "store",
+      "to": "continue-store-load",
+      "label": "Resume",
+      "role": "branch"
+    },
+    {
+      "id": "gateway-assess",
+      "from": "gateway",
+      "to": "continue-gateway-assess",
+      "label": "Typed judgment",
+      "role": "branch"
+    },
+    {
+      "id": "gateway-fresh",
+      "from": "gateway",
+      "to": "continue-gateway-fresh",
+      "label": "Typed question",
+      "role": "branch"
+    },
+    {
+      "id": "intro-task-handoff",
+      "from": "continue-result-fresh",
+      "to": "continue-intro-task",
+      "label": "New application"
+    }
+  ],
+  "mainPath": [
+    "load",
+    "next",
+    "task",
+    "answer",
+    "assess",
+    "result",
+    "track",
+    "left",
+    "report",
+    "return"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Blueprint boundaries",
+      "items": [
+        "The proposed strategy agent revises priorities within the approved source scope; it does not silently expand the question bank.",
+        "Shared gateway and persistence edges are supporting dependencies, not evidence of concurrent autonomous agents.",
+        "This target diagram preserves its original task phases. The current learning map separately shows implemented teach-back, assistance, time budgets and FSRS behavior."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

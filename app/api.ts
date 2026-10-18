@@ -1,13 +1,18 @@
 export type Reference = { passage_id: string; quote: string };
 export type Source = { id: string; title: string; kind: string; url: string; pages: number; passages: { id: string; page: number; text: string }[] };
-export type Concept = { title: string; explanation: string; steps: string[]; prerequisites: number[]; references: Reference[] };
+export type VisualScene = { title: string; nodes: { id: string; label: string; detail: string }[]; links: { source: string; target: string; label: string }[]; focus: string; takeaway: string };
+export type Concept = { title: string; explanation: string; steps: string[]; scenes?: VisualScene[]; prerequisites: number[]; references: Reference[]; estimated_minutes: number };
+export type PlanEntry = { concept: number; phase: string; reason: string; minutes: number; ready: boolean; marks_per_minute: number | null; partial?: boolean };
+export type PlanUpdate = { remaining_minutes?: number; topic_marks?: (number | null)[]; preferred_concept?: number | null };
 export type Task = { id: string; concept: number; phase: 'diagnostic' | 'practice' | 'repair' | 'review' | 'teach_back'; prompt: string; rationale: string; show_lesson: boolean; assisted: boolean };
 export type Session = {
   id: string; goal: string; level: string; minutes: number; deadline: string; demo: boolean;
+  target: string; remaining_minutes: number; spent_minutes: number; planned_minutes: number;
+  topic_marks: (number | null)[]; ranked_topics: PlanEntry[]; preferred_concept?: number | null;
   sources: Source[]; course: { title: string; concepts: Concept[] } | null;
   progress: { status: 'new' | 'introduced' | 'demonstrated' | 'rechecked'; review_at: number | null; successes: number; independent_successes?: number; last_evidence?: { status: string; phase: string; assisted: boolean; at: number } }[];
   task: Task | null; attempt_count: number; used_passages: string[];
-  daily_queue: { concept: number; phase: string; reason: string; minutes: number }[];
+  daily_queue: PlanEntry[];
   feedback: { assisted?: boolean; learner_answer?: string; attempt_id?: string; at?: number; evidence?: { criterion: string; status: string; note: string }[]; status: string; explanation: string; missing_steps: string[]; suspected_gap: string; concept: number; answered_prompt: string; references: Reference[] } | null;
 };
 export type Summary = { id: string; goal: string; demo: boolean; updated: number; concepts: number; demonstrated: number };

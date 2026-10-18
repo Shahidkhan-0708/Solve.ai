@@ -1,0 +1,661 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: learning, repair and delayed recall",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/03-learning/03-learning.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "resume",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Resume session",
+      "sublabel": "Owned, read-only load",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 868,
+          "end_line": 888
+        },
+        {
+          "path": "neFrontend/lib/api.mjs",
+          "line": 48,
+          "end_line": 48
+        }
+      ],
+      "yOffset": -660,
+      "width": 160
+    },
+    {
+      "id": "select",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Choose ready task",
+      "sublabel": "Prerequisites + priorities",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 699,
+          "end_line": 760
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "present",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Saved prompt and phase",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 679,
+          "end_line": 691
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "submit",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Submit answer",
+      "sublabel": "Task, minutes, operation ID",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1155,
+          "end_line": 1188
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "assess",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Assess reasoning",
+      "sublabel": "Live rubric / numeric demo",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1189,
+          "end_line": 1201
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1260,
+          "end_line": 1274
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "result",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Route result",
+      "sublabel": "Status + phase + assistance",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1217,
+          "end_line": 1241
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "uncertain",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Keep same task",
+      "sublabel": "Uncertain; no weakness",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1217,
+          "end_line": 1244
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "repair",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Repair reasoning",
+      "sublabel": "Confirmed gap; repair task",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1232,
+          "end_line": 1241
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "introduced",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Teach then apply",
+      "sublabel": "Fresh independent work",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1217,
+          "end_line": 1222
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "demonstrated",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Record evidence",
+      "sublabel": "Independent success",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1223,
+          "end_line": 1231
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "schedule",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Schedule recall",
+      "sublabel": "FSRS; at least 24 hours",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 763,
+          "end_line": 772
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1224,
+          "end_line": 1234
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "save",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Save graded work",
+      "sublabel": "Attempt + time + progress",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1202,
+          "end_line": 1244
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "prepare",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Prepare next task",
+      "sublabel": "Unseen first; generate last",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 752,
+          "end_line": 760
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1277,
+          "end_line": 1302
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "return",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Return saved state",
+      "sublabel": "Feedback and next action",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1242,
+          "end_line": 1257
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "help",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Open worked help",
+      "sublabel": "Marks task as assisted",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1145,
+          "end_line": 1152
+        },
+        {
+          "path": "backend/product.py",
+          "line": 792,
+          "end_line": 803
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "paused",
+      "lane": "process",
+      "col": 0,
+      "type": "frontend",
+      "label": "Pause / refill time",
+      "sublabel": "Keep saved next phase",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1123,
+          "end_line": 1142
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1175,
+          "end_line": 1181
+        },
+        {
+          "path": "backend/main.py",
+          "line": 752,
+          "end_line": 758
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "failed",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Resume advance",
+      "sublabel": "Saved grade is retained",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1242,
+          "end_line": 1257
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-uncertain-save",
+      "lane": "process",
+      "col": 0,
+      "type": "database",
+      "label": "Save graded work",
+      "sublabel": "Attempt + time + progress",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1202,
+          "end_line": 1244
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "continue-repair-save",
+      "lane": "process",
+      "col": 0,
+      "type": "database",
+      "label": "Save graded work",
+      "sublabel": "Attempt + time + progress",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1202,
+          "end_line": 1244
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-introduced-save",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Save graded work",
+      "sublabel": "Attempt + time + progress",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1202,
+          "end_line": 1244
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "continue-help-present",
+      "lane": "process",
+      "col": 4,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Saved prompt and phase",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 679,
+          "end_line": 691
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "continue-paused-select",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Choose ready task",
+      "sublabel": "Prerequisites + priorities",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 699,
+          "end_line": 760
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "continue-failed-prepare",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Prepare next task",
+      "sublabel": "Unseen first; generate last",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 752,
+          "end_line": 760
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1277,
+          "end_line": 1302
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "continue-return-present",
+      "lane": "process",
+      "col": 0,
+      "type": "frontend",
+      "label": "Present task",
+      "sublabel": "Saved prompt and phase",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 679,
+          "end_line": 691
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 660,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "resume-select",
+      "from": "resume",
+      "to": "select",
+      "label": "Advance if needed"
+    },
+    {
+      "id": "select-present",
+      "from": "select",
+      "to": "present",
+      "label": "Ready + time"
+    },
+    {
+      "id": "present-submit",
+      "from": "present",
+      "to": "submit"
+    },
+    {
+      "id": "submit-assess",
+      "from": "submit",
+      "to": "assess",
+      "label": "Valid task / revision"
+    },
+    {
+      "id": "assess-result",
+      "from": "assess",
+      "to": "result"
+    },
+    {
+      "id": "result-uncertain",
+      "from": "result",
+      "to": "uncertain",
+      "label": "Uncertain",
+      "role": "branch"
+    },
+    {
+      "id": "result-repair",
+      "from": "result",
+      "to": "repair",
+      "label": "Wrong / partial",
+      "role": "branch"
+    },
+    {
+      "id": "result-introduced",
+      "from": "result",
+      "to": "introduced",
+      "label": "Intro / help correct",
+      "role": "branch"
+    },
+    {
+      "id": "result-demonstrated",
+      "from": "result",
+      "to": "demonstrated",
+      "label": "Independent correct",
+      "role": "branch"
+    },
+    {
+      "id": "demonstrated-schedule",
+      "from": "demonstrated",
+      "to": "schedule"
+    },
+    {
+      "id": "repair-save",
+      "from": "repair",
+      "to": "continue-repair-save"
+    },
+    {
+      "id": "uncertain-save",
+      "from": "uncertain",
+      "to": "continue-uncertain-save"
+    },
+    {
+      "id": "introduced-save",
+      "from": "introduced",
+      "to": "continue-introduced-save"
+    },
+    {
+      "id": "schedule-save",
+      "from": "schedule",
+      "to": "save"
+    },
+    {
+      "id": "save-prepare",
+      "from": "save",
+      "to": "prepare"
+    },
+    {
+      "id": "prepare-return",
+      "from": "prepare",
+      "to": "return"
+    },
+    {
+      "id": "return-present",
+      "from": "return",
+      "to": "continue-return-present",
+      "label": "Next saved task",
+      "role": "branch"
+    },
+    {
+      "id": "present-help",
+      "from": "present",
+      "to": "help",
+      "label": "Need help",
+      "role": "branch"
+    },
+    {
+      "id": "help-present",
+      "from": "help",
+      "to": "continue-help-present",
+      "label": "Assisted task",
+      "role": "branch"
+    },
+    {
+      "id": "select-paused",
+      "from": "select",
+      "to": "paused",
+      "label": "No task / no time",
+      "role": "branch"
+    },
+    {
+      "id": "paused-select",
+      "from": "paused",
+      "to": "continue-paused-select",
+      "label": "Budget / recall due",
+      "role": "branch"
+    },
+    {
+      "id": "prepare-failed",
+      "from": "prepare",
+      "to": "failed",
+      "label": "Generation failed",
+      "role": "error"
+    },
+    {
+      "id": "failed-prepare",
+      "from": "failed",
+      "to": "continue-failed-prepare",
+      "label": "Advance; no regrade",
+      "role": "branch"
+    }
+  ],
+  "mainPath": [
+    "resume",
+    "select",
+    "present",
+    "submit",
+    "assess",
+    "result",
+    "demonstrated",
+    "schedule",
+    "save",
+    "prepare",
+    "return"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Progress rules",
+      "items": [
+        "Correct diagnostic/repair leads to teach-back when available, then independent practice. Correct teach-back or assisted work still needs an independent application.",
+        "Only correct unassisted application establishes demonstrated evidence; a correct due review establishes rechecked evidence.",
+        "Wrong/partial review schedules Again. An uncertain judgment retains the task and review schedule; logged time and the attempt are still saved."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Recovery and priority",
+      "items": [
+        "Current/pending work is preserved. Ready prerequisites, chosen topic, due review, confirmed gaps and supplied marks influence ordering.",
+        "The server commits the grade before generating the next question. Operation IDs allow retry recovery without charging or grading the same answer twice.",
+        "An existing repair question is retained after another failed repair. New questions reuse unseen material before calling AI."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+export function relativeTime(value,now=Date.now()) {if(!Number.isFinite(value))return 'Example';const minutes=Math.max(0,Math.floor((now-value)/60000));return minutes===0?'Just now':minutes<60?`${minutes}m`:minutes<1440?`${Math.floor(minutes/60)}h`:`${Math.floor(minutes/1440)}d`;}
+export function completion(tasks){return tasks.length?Math.round(tasks.filter(task=>task.done).length/tasks.length*100):0;}
+export function curriculumLines(text){return text.split(/\r?\n/).map(line=>line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim()).filter(Boolean).slice(0,30);}
+export function extractKeywords(text){const stop=new Set('the and that this with from have your for are was were you into about then than will what which their these those they can not but its'.split(' '));const counts=new Map();for(const word of text.toLowerCase().match(/[a-z][a-z-]{3,}/g)||[])if(!stop.has(word))counts.set(word,(counts.get(word)||0)+1);return [...counts].sort((a,b)=>b[1]-a[1]).slice(0,8).map(([word,count])=>({word,count}));}
+export function isDue(card,now=Date.now()){return card.due<=now;}
+export function nextReview(card,rating,now=Date.now()){const interval=rating==='again'?10*60*1000:rating==='good'?Math.min(30,2**Math.min(card.reviews,5))*86400000:Math.min(60,4*2**Math.min(card.reviews,4))*86400000;return {...card,reviews:card.reviews+1,due:now+interval};}
+export function safeGraphLink(from,to,connections){return from!==to&&!connections.some(link=>link.from===from&&link.to===to||link.from===to&&link.to===from);}

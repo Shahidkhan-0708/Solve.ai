@@ -2,7 +2,9 @@
 
 ## Core solution: first implementation priority
 
-User direction: `image copy.png` defines the main solution. This section takes precedence over the older feature priorities and build sequences below. It specifies intended behavior, not completed implementation.
+User direction: `image copy.png` defines the main solution. This section takes precedence over the older feature priorities and build sequences below.
+
+Implementation update: target/time intake, source-backed topic estimates, prerequisite-aware ranking, optional learner-supplied exam marks, time-boxed allocations, explicit time logs, confirmed-gap priority, saved next-topic overrides, and budget pause/resume are implemented around the existing teach-back and independent-application flow. Real Gemini smoke checks passed generation, source quotations, rubric grading and teach-back transitions. Times remain estimates; broad subject quality, learning benefit and calibrated pass probability remain unverified.
 
 **Solve decides what to study, in what order, and checks you got it.**
 
@@ -213,3 +215,11 @@ No search subscription, LangChain/LlamaIndex, Langfuse account, vector database,
 Native browser visuals do not incur a model call per interaction, and offline clip reuse avoids per-learner rendering. These are architectural savings, not measured performance numbers. Benchmark first-task latency and cost on real Gemini sessions before claiming a speedup. Gemini usage and public hosting may still incur charges.
 
 Research limits: this pass used three Context7 library resolutions and three focused documentation queries. It did not benchmark libraries, install FSRS, run new app tests, perform live provider calls, or establish a learning advantage. Authentication, notifications, voice, OCR and broader long-document retrieval remain separate decisions when their requirements are concrete.
+
+## Implementation record: 2026-10-14
+
+The core reuse plan has now been implemented: source-linked reasoning checks, explicit live teach-back tasks, saved help usage, independent applications with worked examples hidden, answer/evidence views, a deterministic interactive recursion sandbox, recurring FSRS reviews, and integration with the time-budget/prerequisite study planner now present in the workspace. Existing sessions remain loadable, and completed assessments survive next-question failures without regrading.
+
+Gemini 3.1 Flash-Lite is the verified default after newer Flash models returned capacity errors. Real integration checks passed on recursion and the new original draft fractions pack. The revised seven-case grading benchmark passed; outcome-only report: tmp/grading-20261014T055430942598.json. The recorded backend run passed 25 checks. Browser verification is recorded separately once the current routed frontend and running build are aligned.
+
+Remaining external work: independent subject and rubric approval, consenting learners and delayed results, recoverable public identity when promised, hosting/HTTPS/hosted recovery verification, and measured real-user latency/cost. Search-provider setup remains deferred. No pilot outcomes or competitive advantage have been fabricated.

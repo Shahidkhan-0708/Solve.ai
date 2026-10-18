@@ -59,6 +59,8 @@ The forms use new recursive sum functions to test transfer beyond the demo's fac
 
 ## Local operational checks
 
-Twelve backend checks pass, including restoration to a separate database with integrity checking, retained learning state, private ownership, resume, and a subsequent answer. Gemini transport checks cover generation/grading/question schemas, blocked or incomplete responses, malformed JSON, bounded retries, and missing-key behavior. Hosted backup/restore remains a deployment check.
+The recorded backend run on 2026-10-14 passed 25 checks, including restoration to a separate database with integrity checking, retained learning state, private ownership, resume, and a subsequent answer. Gemini transport checks cover generation/grading/question schemas, blocked or incomplete responses, malformed JSON, bounded retries, and missing-key behavior. Hosted backup/restore remains a deployment check.
 
-scripts/check-live.py provides an isolated real-provider smoke check. It intentionally reports NOT RUN until GEMINI_API_KEY is configured; live generation/grading has not been verified with a real provider in this workspace.
+scripts/check-live.py now passed real Gemini 3.1 Flash-Lite integration checks on recursion and the draft fractions source pack, including source quotations, reference rubric grading, instruction rejection and teach-back. The seven-case revised grading benchmark also passed. These are functional and draft quality checks, not independent subject approval or collected pilot results. The check still reports NOT RUN when no key is configured.
+
+The additional original fractions source in pilot/fractions-source.md is for cross-subject integration testing. Before using it in a learner pilot, obtain independent approval and prepare subject-specific unseen pre/post/delayed assessments; the current participant forms assess recursion transfer.

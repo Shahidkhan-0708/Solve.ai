@@ -1,0 +1,662 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Planned blueprint: intake and evidence approval",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/08-planned-evidence/08-planned-evidence.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "open",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Open Solve.ai",
+      "sublabel": "New goal or saved work",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 7,
+          "end_line": 9
+        }
+      ],
+      "yOffset": -660,
+      "width": 160
+    },
+    {
+      "id": "resume",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Resume saved goal?",
+      "sublabel": "Restore if available",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 7,
+          "end_line": 9
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "intake",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Intake agent",
+      "sublabel": "Exam, marks, time, level",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 9,
+          "end_line": 12
+        }
+      ],
+      "tag": "Proposed",
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "enough",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Enough information?",
+      "sublabel": "Ask only missing details",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 10,
+          "end_line": 12
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "scope",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Question-bank scope?",
+      "sublabel": "Definitive supplied bank",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 12,
+          "end_line": 18
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "lock",
+      "lane": "process",
+      "col": 0,
+      "type": "security",
+      "label": "Lock evidence scope",
+      "sublabel": "Use supplied question bank",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 15,
+          "end_line": 19
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "have",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Useful material?",
+      "sublabel": "Learner-supplied evidence",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 16,
+          "end_line": 18
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "supplied",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Supply material",
+      "sublabel": "PDF, notes, public links",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 17,
+          "end_line": 23
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "discovery",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Discovery agent",
+      "sublabel": "Matching academic sources",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 18,
+          "end_line": 23
+        }
+      ],
+      "tag": "Proposed",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "fetch",
+      "lane": "process",
+      "col": 4,
+      "type": "security",
+      "label": "Safe and readable?",
+      "sublabel": "Public source fetch gate",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 21,
+          "end_line": 23
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "extract",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Extract passages",
+      "sublabel": "Text + source metadata",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 19,
+          "end_line": 24
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "readable",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Material fits limits?",
+      "sublabel": "Readable and relevant",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 24,
+          "end_line": 26
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "clean",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Prepare evidence",
+      "sublabel": "Deduplicate + passage IDs",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 26,
+          "end_line": 27
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "approve",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Approve evidence",
+      "sublabel": "Explicit learner decision",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 27,
+          "end_line": 29
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "pack",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Approved evidence pack",
+      "sublabel": "Passages, citations, scope",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 29,
+          "end_line": 33
+        }
+      ],
+      "yOffset": 660,
+      "width": 160
+    },
+    {
+      "id": "load",
+      "lane": "process",
+      "col": 0,
+      "type": "database",
+      "label": "Restore saved task",
+      "sublabel": "Continue in learning map",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 8,
+          "end_line": 8
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "ask",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Answer missing details",
+      "sublabel": "Return to intake",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 11,
+          "end_line": 11
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "links",
+      "lane": "process",
+      "col": 5,
+      "type": "external",
+      "label": "Add permitted text",
+      "sublabel": "Source links if fetch fails",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 23,
+          "end_line": 23
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "replace",
+      "lane": "process",
+      "col": 0,
+      "type": "external",
+      "label": "Replace material",
+      "sublabel": "Smaller, OCR or new source",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 25,
+          "end_line": 28
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "continue-ask-intake",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Intake agent",
+      "sublabel": "Exam, marks, time, level",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 9,
+          "end_line": 12
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "continue-lock-extract",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Extract passages",
+      "sublabel": "Text + source metadata",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 19,
+          "end_line": 24
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "continue-fetch-extract",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Extract passages",
+      "sublabel": "Text + source metadata",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 19,
+          "end_line": 24
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "continue-links-supplied",
+      "lane": "process",
+      "col": 5,
+      "type": "external",
+      "label": "Supply material",
+      "sublabel": "PDF, notes, public links",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 17,
+          "end_line": 23
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-replace-supplied",
+      "lane": "process",
+      "col": 0,
+      "type": "external",
+      "label": "Supply material",
+      "sublabel": "PDF, notes, public links",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 17,
+          "end_line": 23
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-approve-replace",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Replace material",
+      "sublabel": "Smaller, OCR or new source",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 25,
+          "end_line": 28
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "continue-approved-replacement",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Supply material",
+      "sublabel": "PDF, notes, public links",
+      "sources": [
+        {
+          "path": "diagrams/agents-orchestration.mmd",
+          "line": 17,
+          "end_line": 23
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 660,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "open-resume",
+      "from": "open",
+      "to": "resume"
+    },
+    {
+      "id": "resume-load",
+      "from": "resume",
+      "to": "load",
+      "label": "Yes",
+      "role": "branch"
+    },
+    {
+      "id": "resume-intake",
+      "from": "resume",
+      "to": "intake",
+      "label": "No"
+    },
+    {
+      "id": "intake-enough",
+      "from": "intake",
+      "to": "enough"
+    },
+    {
+      "id": "enough-scope",
+      "from": "enough",
+      "to": "scope",
+      "label": "Yes"
+    },
+    {
+      "id": "enough-ask",
+      "from": "enough",
+      "to": "ask",
+      "label": "No",
+      "role": "branch"
+    },
+    {
+      "id": "ask-intake",
+      "from": "ask",
+      "to": "continue-ask-intake",
+      "label": "Clarified",
+      "role": "branch"
+    },
+    {
+      "id": "scope-lock",
+      "from": "scope",
+      "to": "lock",
+      "label": "Bank supplied"
+    },
+    {
+      "id": "scope-have",
+      "from": "scope",
+      "to": "have",
+      "label": "No bank",
+      "role": "branch"
+    },
+    {
+      "id": "have-supplied",
+      "from": "have",
+      "to": "supplied",
+      "label": "Yes"
+    },
+    {
+      "id": "have-discovery",
+      "from": "have",
+      "to": "discovery",
+      "label": "No",
+      "role": "branch"
+    },
+    {
+      "id": "discovery-fetch",
+      "from": "discovery",
+      "to": "fetch"
+    },
+    {
+      "id": "fetch-extract",
+      "from": "fetch",
+      "to": "continue-fetch-extract",
+      "label": "Yes"
+    },
+    {
+      "id": "fetch-links",
+      "from": "fetch",
+      "to": "links",
+      "label": "No",
+      "role": "branch"
+    },
+    {
+      "id": "links-supplied",
+      "from": "links",
+      "to": "continue-links-supplied",
+      "label": "Manual text",
+      "role": "branch"
+    },
+    {
+      "id": "lock-extract",
+      "from": "lock",
+      "to": "continue-lock-extract"
+    },
+    {
+      "id": "supplied-extract",
+      "from": "supplied",
+      "to": "extract"
+    },
+    {
+      "id": "extract-readable",
+      "from": "extract",
+      "to": "readable"
+    },
+    {
+      "id": "readable-clean",
+      "from": "readable",
+      "to": "clean",
+      "label": "Yes"
+    },
+    {
+      "id": "readable-replace",
+      "from": "readable",
+      "to": "replace",
+      "label": "No",
+      "role": "branch"
+    },
+    {
+      "id": "clean-approve",
+      "from": "clean",
+      "to": "approve"
+    },
+    {
+      "id": "approve-pack",
+      "from": "approve",
+      "to": "pack",
+      "label": "Approved"
+    },
+    {
+      "id": "approve-replace",
+      "from": "approve",
+      "to": "continue-approve-replace",
+      "label": "Rejected",
+      "role": "branch"
+    },
+    {
+      "id": "replace-supplied",
+      "from": "replace",
+      "to": "continue-replace-supplied",
+      "label": "Replacement",
+      "role": "branch"
+    },
+    {
+      "id": "replacement-continue",
+      "from": "continue-approve-replace",
+      "to": "continue-approved-replacement",
+      "label": "Replace material"
+    }
+  ],
+  "mainPath": [
+    "open",
+    "resume",
+    "intake",
+    "enough",
+    "scope",
+    "have",
+    "supplied",
+    "extract",
+    "readable",
+    "clean",
+    "approve",
+    "pack"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Blueprint, not current runtime",
+      "items": [
+        "Converted from diagrams/agents-orchestration.mmd. This is the authored target design, not proof that every role is implemented.",
+        "The intake/discovery agent roles and question-bank scope lock are proposed product responsibilities.",
+        "The approved evidence pack feeds the planned strategy map. Saved sessions resume in the planned learning map."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "archive": "stitch_project_logo_analyzer.zip",
+  "archive_sha256": "582a1c4361cc50a6bf68201d566ddd4a8403bcbf7127226d5b15c59648c16f70",
+  "entries": [
+    {
+      "path": "code.html",
+      "bytes": 30998,
+      "sha256": "a8422a15e2bff90a0982184c30ff906f08ed4f0293f6c9ce5c2f1cdad7cb0b92"
+    },
+    {
+      "path": "screen.png",
+      "bytes": 211618,
+      "sha256": "e141ff7e7b06ecab7c175f9715c144cf3349439cab83b05335d51379d3531455"
+    },
+    {
+      "path": "DESIGN.md",
+      "bytes": 9276,
+      "sha256": "231ba69acb4da2878ff63ce51017065efba2f8aa94c661155508bbbd0567f000"
+    }
+  ],
+  "screens": [
+    {
+      "name": "Learning Workspace / Chat",
+      "html": "code.html",
+      "reference": "screen.png",
+      "image_size": [
+        1600,
+        1280
+      ],
+      "inferred_css_viewport": [
+        1280,
+        1024
+      ],
+      "inferred_capture_scale": 1.25,
+      "demo_states": [
+        "first-use",
+        "returning",
+        "text-entered",
+        "attachment-open",
+        "attachment-added"
+      ],
+      "responsive_classes": [
+        "md:grid-cols-3",
+        "md:pt-24",
+        "sm:flex-row",
+        "sm:inline-block",
+        "sm:pt-20",
+        "sm:px-6"
+      ]
+    }
+  ],
+  "supplied_font_files": [],
+  "supplied_asset_files": [],
+  "remote_images": [
+    "https://lh3.googleusercontent.com/aida/AEtjO1UrcI2Ifzq0jwNb85xbvprb-QJUQHoKAfDtJTvEg7B2oLR8h6fBtnM_WsIXj0igE1JSqyunAjB4K3AvJSAlwWLf20iCQbkmahRIsFmcI6G1IIwPwrUQSJX2vxnAeD0RRTD1R0JjCXeF4DhdbiS_ylb25hpJ_Eg2uTyhRGBBr0GH41ZjuEz6-wMllfbM5UiSMC2XjYlLkIhToxsHy92-DiOoApi-yhUI3O3nxn7q7Ge-gVCetB7bMxXlcX1BL0WTUTScsrXjdrTVRw",
+    "https://lh3.googleusercontent.com/aida-public/AB6AXuBHKPscnyfSJJoPXW1xaXUj2_YcDyJDc3BhDcv-o6DgLwAnbnhz778uKSN-gK7wb53ZqrsAyOKlDB5tyvKsD1t-YXfRWdaiMS7x_hPsWUcj_T0Mnglr2y2DEARg5smNbqEILB5-4SKXM-RpIsUB1kExAgxUiamSU4ts-zotrobXca-UiZUZuVrEna8I8qTBGYTuAXo2wLirDUBNeBlc9ZI9ln6vGzGY4D-rBtxOBvyTX5bGD7Qcc_N3uB-K3T990i9lSus"
+  ],
+  "remote_font_stylesheets": [
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+    "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+  ],
+  "missing": [
+    "Separate mobile screenshot/export",
+    "Study Workspace screen",
+    "My Plan / Strategy screen",
+    "Knowledge Graph screen",
+    "Target Status screen",
+    "Settings & Preferences screen",
+    "Authentication screen/backend",
+    "AI/backend integration",
+    "JetBrains Mono font binary or stylesheet"
+  ],
+  "existing_source_found": false,
+  "agents_md_found": false
+}

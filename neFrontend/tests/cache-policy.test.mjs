@@ -1,0 +1,7 @@
+import { test } from 'node:test';import assert from 'node:assert/strict';
+import { requestPolicy } from '../scripts/sw-policy.mjs';
+const origin='https://solve.test';const pages=['/','/study'];const assets=['/_next/static/build.js','/fonts/inter.ttf'];
+function policy(url,options={}) {return requestPolicy({url:new URL(url,origin).href,method:options.method||'GET',headers:new Headers(options.headers),mode:options.mode||'cors'},origin,pages,assets);}
+test('only explicitly build-listed same-origin assets may use cache',()=>{assert.equal(policy('/_next/static/build.js'),'asset');assert.equal(policy('/fonts/inter.ttf'),'asset');assert.equal(policy('/assets/private-upload.png'),'network');assert.equal(policy('https://other.test/fonts/inter.ttf'),'network');});
+test('API, auth, cookies, queries, mutations and RSC never use shared caches',()=>{for(const url of ['/api/chat','/api','/auth','/account','/?session=private','/_next/static/build.js?v=private'])assert.equal(policy(url),'network');for(const headers of [{authorization:'Bearer example'},{cookie:'session=example'},{rsc:'1'},{'next-router-state-tree':'x'}])assert.equal(policy('/_next/static/build.js',{headers}),'network');assert.equal(policy('/_next/static/build.js',{method:'POST'}),'network');});
+test('public navigation may fall back only to precached build shell',()=>{assert.equal(policy('/',{mode:'navigate'}),'navigation');assert.equal(policy('/study',{mode:'navigate'}),'navigation');assert.equal(policy('/profile',{mode:'navigate'}),'network');assert.equal(policy('/'),'network');});

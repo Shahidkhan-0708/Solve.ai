@@ -1,0 +1,40 @@
+[
+  {
+    "url": "https://lh3.googleusercontent.com/aida/AEtjO1UrcI2Ifzq0jwNb85xbvprb-QJUQHoKAfDtJTvEg7B2oLR8h6fBtnM_WsIXj0igE1JSqyunAjB4K3AvJSAlwWLf20iCQbkmahRIsFmcI6G1IIwPwrUQSJX2vxnAeD0RRTD1R0JjCXeF4DhdbiS_ylb25hpJ_Eg2uTyhRGBBr0GH41ZjuEz6-wMllfbM5UiSMC2XjYlLkIhToxsHy92-DiOoApi-yhUI3O3nxn7q7Ge-gVCetB7bMxXlcX1BL0WTUTScsrXjdrTVRw",
+    "local": "/assets/profile.png",
+    "sha256": "e3d9e34db18336dbc09638ed62d1c1f86be5ec80da9ec91563468a3655de0790"
+  },
+  {
+    "url": "https://lh3.googleusercontent.com/aida-public/AB6AXuBHKPscnyfSJJoPXW1xaXUj2_YcDyJDc3BhDcv-o6DgLwAnbnhz778uKSN-gK7wb53ZqrsAyOKlDB5tyvKsD1t-YXfRWdaiMS7x_hPsWUcj_T0Mnglr2y2DEARg5smNbqEILB5-4SKXM-RpIsUB1kExAgxUiamSU4ts-zotrobXca-UiZUZuVrEna8I8qTBGYTuAXo2wLirDUBNeBlc9ZI9ln6vGzGY4D-rBtxOBvyTX5bGD7Qcc_N3uB-K3T990i9lSus",
+    "local": "/assets/solve-logo.png",
+    "sha256": "e3d9e34db18336dbc09638ed62d1c1f86be5ec80da9ec91563468a3655de0790"
+  },
+  {
+    "font": "inter",
+    "url": "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap",
+    "files": [
+      "inter-0.ttf",
+      "inter-1.ttf",
+      "inter-2.ttf",
+      "inter-3.ttf",
+      "inter-4.ttf",
+      "inter-5.ttf",
+      "inter-6.ttf",
+      "inter-7.ttf",
+      "inter-8.ttf"
+    ]
+  },
+  {
+    "font": "material-symbols",
+    "url": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200",
+    "files": [
+      "material-symbols-0.ttf",
+      "material-symbols-1.ttf",
+      "material-symbols-2.ttf",
+      "material-symbols-3.ttf",
+      "material-symbols-4.ttf",
+      "material-symbols-5.ttf",
+      "material-symbols-6.ttf"
+    ]
+  }
+]

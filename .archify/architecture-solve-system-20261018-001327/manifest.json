@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "01-system",
+    "type": "architecture",
+    "title": "Solve.ai: current system architecture",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/01-system/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/01-system/01-system.html"
+  },
+  {
+    "slug": "02-source-course",
+    "type": "workflow",
+    "title": "Current: material to a source-backed course",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/02-source-course/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/02-source-course/02-source-course.html"
+  },
+  {
+    "slug": "03-learning",
+    "type": "workflow",
+    "title": "Current: learning, repair and delayed recall",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/03-learning/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/03-learning/03-learning.html"
+  },
+  {
+    "slug": "04-ai-gateway",
+    "type": "workflow",
+    "title": "Current: request boundaries and structured AI gateway",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/04-ai-gateway/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/04-ai-gateway/04-ai-gateway.html"
+  },
+  {
+    "slug": "05-chat",
+    "type": "workflow",
+    "title": "Current: conversations and streamed replies",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/05-chat/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/05-chat/05-chat.html"
+  },
+  {
+    "slug": "06-media",
+    "type": "workflow",
+    "title": "Current: uploads, voice and reviewed animations",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/06-media/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/06-media/06-media.html"
+  },
+  {
+    "slug": "07-workspace",
+    "type": "workflow",
+    "title": "Current: accounts, goals, flashcards and reminders",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/07-workspace/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/07-workspace/07-workspace.html"
+  },
+  {
+    "slug": "08-planned-evidence",
+    "type": "workflow",
+    "title": "Planned blueprint: intake and evidence approval",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/08-planned-evidence/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/08-planned-evidence/08-planned-evidence.html"
+  },
+  {
+    "slug": "09-planned-strategy",
+    "type": "workflow",
+    "title": "Planned blueprint: strategy and course construction",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/09-planned-strategy/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/09-planned-strategy/09-planned-strategy.html"
+  },
+  {
+    "slug": "10-planned-learning",
+    "type": "workflow",
+    "title": "Planned blueprint: assess, adapt and return",
+    "candidate": ".archify/architecture-solve-system-20261018-001327/10-planned-learning/candidate.json",
+    "output": ".archify/architecture-solve-system-20261018-001327/10-planned-learning/10-planned-learning.html"
+  }
+]

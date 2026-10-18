@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "beautifulsoup-scraper": {
+      "command": "python",
+      "args": ["c:/Users/HP/OneDrive/Documents/webd/task/Solve.ai/mcp_servers/beautifulsoup_server.py"]
+    }
+  }
+}

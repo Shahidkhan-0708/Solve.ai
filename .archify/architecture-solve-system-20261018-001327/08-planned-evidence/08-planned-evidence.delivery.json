@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "e22a0e2d-a497-4e56-9b51-427ce4b5449f",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\08-planned-evidence\\candidate.json",
+  "output": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\08-planned-evidence\\08-planned-evidence.html",
+  "specification": {
+    "sha256": "9c47c921d8f26dff391c04ca54efce315332f204c0c00ce3780ede361c159f8f",
+    "bytes": 14777
+  },
+  "artifact": {
+    "sha256": "3661f7acb3131847910bc99b587cac29931c6e5d5a15131160a24699af85001f",
+    "bytes": 858146
+  }
+}

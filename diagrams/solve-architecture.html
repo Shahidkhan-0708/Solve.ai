@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Solve.ai — Architecture &amp; workflows</title>
+  <style>
+    :root{color-scheme:light dark;--bg:#f5f5f1;--surface:#fff;--text:#202922;--muted:#58675d;--border:#d9e0da;--accent:#176b42;--plan:#865b15;--current-bg:#e7f4eb;--plan-bg:#fff2d9}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:64px 28px 40px}header{max-width:800px}.eyebrow{color:var(--accent);font-size:12px;font-weight:750;letter-spacing:.14em;text-transform:uppercase}h1{font-size:clamp(32px,5vw,54px);line-height:1.12;letter-spacing:-.045em;margin:16px 0 22px}header p{font-size:18px;color:var(--muted)}h2{font-size:23px;letter-spacing:-.025em;margin:0}.section-head{display:flex;align-items:baseline;gap:16px;margin:48px 0 18px}.section-head p{margin:0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.diagram{display:block;padding:26px;border:1px solid var(--border);border-radius:15px;background:var(--surface);color:inherit;text-decoration:none;transition:border-color .15s,box-shadow .15s}.diagram:hover{border-color:var(--accent);box-shadow:0 4px 18px #176b4212}.diagram:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:5px}.diagram.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px;border-color:var(--accent)}.badge{display:inline-block;background:var(--current-bg);color:var(--accent);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:750;letter-spacing:.05em;text-transform:uppercase}.planned .badge{background:var(--plan-bg);color:var(--plan)}.diagram h3{font-size:21px;line-height:1.3;letter-spacing:-.02em;margin:13px 0 8px}.diagram p{color:var(--muted);margin:0;font-size:14px}.open{display:block;color:var(--accent);font-size:13px;font-weight:650;margin-top:18px}.featured .mini-flow{align-self:center;font-size:16px;line-height:2;color:var(--muted)}.mini-flow strong{color:var(--text)}aside,details{margin-top:26px;border:1px solid var(--border);border-radius:12px;padding:20px 24px;background:var(--surface)}aside p{margin:4px 0;color:var(--muted);font-size:14px}aside strong{color:var(--text)}summary{cursor:pointer;font-weight:650}details p,details li{color:var(--muted);font-size:14px}details code{overflow-wrap:anywhere;font-size:12px}footer{color:var(--muted);font-size:13px;margin-top:32px}a{color:var(--accent)}ul{padding-left:22px}
+    @media(prefers-color-scheme:dark){:root{--bg:#141b17;--surface:#1b241e;--text:#e7eee8;--muted:#acb9af;--border:#36463b;--accent:#8ad8ab;--plan:#edc783;--current-bg:#263e2f;--plan-bg:#403723}}
+    @media(max-width:650px){main{padding:36px 18px}.grid{grid-template-columns:1fr}.diagram.featured{display:block}.featured .mini-flow{margin-top:20px;font-size:14px}.section-head{display:block}.section-head p{margin-top:4px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Solve.ai · System map · 18 October 2026</div>
+    <h1>Architecture &amp; workflows</h1>
+    <p>Explore the current system, then follow the source, learning, AI and workspace flows. Each diagram opens in the interactive Archify viewer with source references and export controls.</p>
+  </header>
+
+  <section aria-labelledby="current-title">
+    <div class="section-head"><h2 id="current-title">Current implementation</h2><p>Seven views of the frozen working tree</p></div>
+    <div class="grid">
+      <a class="diagram featured" href="../.archify/architecture-solve-system-20261018-001327/01-system/01-system.html">
+        <div><span class="badge">Architecture</span><h3>01 · Whole system</h3><p>Browser, Next.js, FastAPI, AI providers, workspace services, database selection and private media.</p><span class="open">Explore architecture →</span></div>
+        <div class="mini-flow"><strong>Browser → Next.js → FastAPI</strong><br>Groq / Gemini · Google identity · Web push<br>PostgreSQL / SQLite · Private media</div>
+      </a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/02-source-course/02-source-course.html"><span class="badge">Workflow</span><h3>02 · Material to course</h3><p>Intake, upload and URL extraction, optional discovery, learner confirmation, selected evidence, course generation and validation.</p><span class="open">Follow the source flow →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/03-learning/03-learning.html"><span class="badge">Workflow</span><h3>03 · Learning and recall</h3><p>Saved tasks, rubric assessment, uncertainty, assistance, teach-back, independent evidence, time budgets and FSRS reviews.</p><span class="open">Follow the learning loop →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/04-ai-gateway/04-ai-gateway.html"><span class="badge">Workflow</span><h3>04 · AI gateway</h3><p>Ownership, origin checks, revisions, quotas, model selection, bounded retries, typed results and route-owned persistence.</p><span class="open">Inspect request control →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/05-chat/05-chat.html"><span class="badge">Workflow</span><h3>05 · Conversations</h3><p>Idempotent message submission, bounded context, streaming chunks, saved partial answers, cancellation and regeneration.</p><span class="open">Follow a streamed reply →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/06-media/06-media.html"><span class="badge">Workflow</span><h3>06 · Media and animations</h3><p>Private attachments, audio transcription, reusable speech, reviewed storyboards, bounded Manim rendering and still-image fallback.</p><span class="open">Explore the media pipeline →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/07-workspace/07-workspace.html"><span class="badge">Workflow</span><h3>07 · Workspace services</h3><p>Optional Google sign-in, explicit guest-data claims, preferences, goals, flashcards, scheduled reminders and opt-in push.</p><span class="open">Explore workspace flows →</span></a>
+    </div>
+  </section>
+
+  <aside aria-label="How to read the maps">
+    <p><strong>Continue boxes:</strong> a repeated box tagged “Continue” returns to the identically named step. It keeps long recovery paths readable.</p>
+    <p><strong>Database selection:</strong> the code contains a PostgreSQL/SQLite adapter. The earlier Redis example was illustrative; Redis is absent from this inspected implementation.</p>
+    <p><strong>Scope:</strong> these are maps of source code and configured capabilities, not a claim that every external service is configured or deployed.</p>
+  </aside>
+
+  <section aria-labelledby="planned-title">
+    <div class="section-head"><h2 id="planned-title">Planned agent blueprint</h2><p>The existing target design, converted into three views</p></div>
+    <div class="grid planned">
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/08-planned-evidence/08-planned-evidence.html"><span class="badge">Planned</span><h3>08 · Intake and evidence</h3><p>Adaptive intake, question-bank scope, discovery, replacement material and explicit evidence approval.</p><span class="open">Open planned intake →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/09-planned-strategy/09-planned-strategy.html"><span class="badge">Planned</span><h3>09 · Strategy and course</h3><p>Choose focused preparation, teach-back or distributed practice, then build and validate the proposed course.</p><span class="open">Open planned strategy →</span></a>
+      <a class="diagram" href="../.archify/architecture-solve-system-20261018-001327/10-planned-learning/10-planned-learning.html"><span class="badge">Planned</span><h3>10 · Assessment and adaptation</h3><p>Assess reasoning, repair gaps, generate fresh questions, adapt priorities, preserve reports and return for recall.</p><span class="open">Open planned learning →</span></a>
+    </div>
+  </section>
+
+  <details>
+    <summary>Sources and snapshot</summary>
+    <p>Current diagrams cite a separate local Git snapshot of the files inspected for this request. The main project’s commits, index and application code were not changed to create that snapshot.</p>
+    <p>Project HEAD: <code>312a71f15b983625c3f7b3338633a38afedacdb0</code><br>Evidence snapshot: <code>df8ac2721b6b031c04076fab24a37f61e7f5ac75</code></p>
+    <p>The working tree contains uncommitted changes. Inspected changed paths include:</p>
+    <ul>
+      <li><code>README.md</code>, <code>compose.yaml</code>, <code>scripts/dev.mjs</code></li>
+      <li><code>backend/main.py</code>, <code>backend/accounts.py</code>, <code>backend/product.py</code>, <code>backend/media.py</code>, <code>backend/animation.py</code>, <code>backend/notifications.py</code>, <code>backend/persistence.py</code>, <code>backend/requirements.txt</code></li>
+      <li><code>neFrontend/lib/api.mjs</code>, <code>neFrontend/next.config.ts</code>; newer frontend features are also documented in <code>neFrontend/docs/api-integration.md</code></li>
+    </ul>
+    <p>The planned views cite <a href="agents-orchestration.mmd">the existing target Mermaid workflow</a>. The three current Mermaid drawings were consulted, then their code descriptions were updated for the current maps.</p>
+    <p><a href="../.archify/architecture-solve-system-20261018-001327/manifest.json">Diagram manifest</a> · <a href="../.archify/architecture-solve-system-20261018-001327/source/">Frozen source files</a></p>
+  </details>
+  <footer>Archify diagrams · Standalone HTML · Source snapshot from 18 October 2026</footer>
+</main>
+</body>
+</html>

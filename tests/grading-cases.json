@@ -1,5 +1,5 @@
 {
-  "version": "recursion-grading-v1",
+  "version": "recursion-grading-v2",
   "review": "Locally checked examples; independent subject approval pending.",
   "question": {
     "prompt": "Explain why factorial(n) terminates for non-negative integers. State the base case and how each recursive call moves toward it.",
@@ -33,7 +33,7 @@
     },
     {
       "id": "ambiguous",
-      "answer": "It depends; perhaps the next thing ends somehow. I am not sure what the rule is.",
+      "answer": "It returns one at that value. Then it does that thing to n until it gets there.",
       "expected": [
         "unable_to_assess"
       ]

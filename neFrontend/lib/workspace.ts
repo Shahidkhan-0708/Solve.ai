@@ -1,0 +1,9 @@
+export type Task={id:string;title:string;done:boolean};
+export type Goal={id:string;title:string;weeks:number;createdAt:number;tasks:Task[];notes:string};
+export type Concept={id:string;label:string;status:'new'|'learning'|'mastered';notes:string;goalId?:string;taskId?:string};
+export type Connection={id:string;from:string;to:string};
+export type Resource={id:string;goalId:string;name:string;type:'text'|'link'|'file';content:string;createdAt:number};
+export type Card={id:string;goalId:string;question:string;answer:string;due:number;reviews:number};
+export type StudySession={id:string;goalId:string;title:string;messages:{role:'user'|'assistant';text:string}[];updatedAt:number};
+export type Workspace={goals:Goal[];concepts:Concept[];connections:Connection[];resources:Resource[];cards:Card[];studySessions:StudySession[];activeGoalId:string;studyActiveId:string;prefs:{reducedMotion:boolean;rememberChats:boolean;displayName:string;email:string}};
+export const EMPTY_WORKSPACE:Workspace={goals:[],concepts:[],connections:[],resources:[],cards:[],studySessions:[],activeGoalId:'',studyActiveId:'',prefs:{reducedMotion:false,rememberChats:false,displayName:'Student',email:''}};

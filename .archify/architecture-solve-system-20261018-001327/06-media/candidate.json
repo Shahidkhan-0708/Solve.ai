@@ -1,0 +1,598 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: uploads, voice and reviewed animations",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/06-media/06-media.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "upload",
+      "label": "Material and attachments"
+    },
+    {
+      "id": "audio",
+      "label": "Spoken learner input"
+    },
+    {
+      "id": "speech",
+      "label": "Spoken explanations"
+    },
+    {
+      "id": "visual",
+      "label": "Worked visual explanations"
+    },
+    {
+      "id": "fallback",
+      "label": "Visual failure"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "file",
+      "lane": "upload",
+      "col": 0,
+      "type": "external",
+      "label": "Choose file",
+      "sublabel": "PDF, DOCX, text, image",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 927,
+          "end_line": 938
+        },
+        {
+          "path": "backend/media.py",
+          "line": 171,
+          "end_line": 184
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "lane": "upload",
+      "col": 1,
+      "type": "security",
+      "label": "Validate upload",
+      "sublabel": "Size, content, owner",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 171,
+          "end_line": 183
+        }
+      ]
+    },
+    {
+      "id": "extract",
+      "lane": "upload",
+      "col": 2,
+      "type": "backend",
+      "label": "Extract readable text",
+      "sublabel": "Local parsers / AI image",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 43,
+          "end_line": 82
+        }
+      ]
+    },
+    {
+      "id": "store",
+      "lane": "upload",
+      "col": 3,
+      "type": "database",
+      "label": "Store owned material",
+      "sublabel": "Passages or attachment",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 934,
+          "end_line": 938
+        },
+        {
+          "path": "backend/media.py",
+          "line": 85,
+          "end_line": 96
+        },
+        {
+          "path": "backend/media.py",
+          "line": 177,
+          "end_line": 184
+        }
+      ]
+    },
+    {
+      "id": "read",
+      "lane": "upload",
+      "col": 4,
+      "type": "frontend",
+      "label": "Read private media",
+      "sublabel": "Owner + expiry enforced",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 154,
+          "end_line": 161
+        }
+      ]
+    },
+    {
+      "id": "delete",
+      "lane": "upload",
+      "col": 5,
+      "type": "backend",
+      "label": "Delete owned media",
+      "sublabel": "Remove record and file",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 163,
+          "end_line": 169
+        },
+        {
+          "path": "backend/main.py",
+          "line": 907,
+          "end_line": 915
+        }
+      ]
+    },
+    {
+      "id": "record",
+      "lane": "audio",
+      "col": 0,
+      "type": "external",
+      "label": "Record answer",
+      "sublabel": "Owned session / chat",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 193,
+          "end_line": 199
+        }
+      ]
+    },
+    {
+      "id": "decode",
+      "lane": "audio",
+      "col": 1,
+      "type": "backend",
+      "label": "Decode recording",
+      "sublabel": "FFmpeg; bounded audio",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 99,
+          "end_line": 116
+        }
+      ]
+    },
+    {
+      "id": "transcribe",
+      "lane": "audio",
+      "col": 2,
+      "type": "cloud",
+      "label": "Transcribe audio",
+      "sublabel": "Groq; Gemini fallback",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 201,
+          "end_line": 220
+        }
+      ]
+    },
+    {
+      "id": "recording",
+      "lane": "audio",
+      "col": 3,
+      "type": "database",
+      "label": "Save transcript",
+      "sublabel": "Private WAV; 30-day expiry",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 211,
+          "end_line": 220
+        }
+      ]
+    },
+    {
+      "id": "answer",
+      "lane": "audio",
+      "col": 4,
+      "type": "frontend",
+      "label": "Submit spoken answer",
+      "sublabel": "Validate audio ownership",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1155,
+          "end_line": 1162
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "lane": "speech",
+      "col": 0,
+      "type": "external",
+      "label": "Speak explanation",
+      "sublabel": "Text + chosen voice",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 223,
+          "end_line": 225
+        }
+      ]
+    },
+    {
+      "id": "signature",
+      "lane": "speech",
+      "col": 1,
+      "type": "backend",
+      "label": "Lock speech request",
+      "sublabel": "Owner + content signature",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 225,
+          "end_line": 227
+        }
+      ]
+    },
+    {
+      "id": "cached",
+      "lane": "speech",
+      "col": 2,
+      "type": "database",
+      "label": "Find reusable audio",
+      "sublabel": "Unexpired + file exists",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 228,
+          "end_line": 230
+        }
+      ]
+    },
+    {
+      "id": "tts",
+      "lane": "speech",
+      "col": 3,
+      "type": "cloud",
+      "label": "Generate speech",
+      "sublabel": "Gemini audio; validate WAV",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 118,
+          "end_line": 140
+        }
+      ]
+    },
+    {
+      "id": "wav",
+      "lane": "speech",
+      "col": 4,
+      "type": "database",
+      "label": "Store speech",
+      "sublabel": "Private WAV; 7-day expiry",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 231,
+          "end_line": 232
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "lane": "speech",
+      "col": 5,
+      "type": "frontend",
+      "label": "Play explanation",
+      "sublabel": "Owned media endpoint",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 154,
+          "end_line": 161
+        }
+      ]
+    },
+    {
+      "id": "help",
+      "lane": "visual",
+      "col": 0,
+      "type": "external",
+      "label": "Open worked visual",
+      "sublabel": "Lesson or completed reply",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1359,
+          "end_line": 1372
+        },
+        {
+          "path": "backend/product.py",
+          "line": 483,
+          "end_line": 509
+        }
+      ]
+    },
+    {
+      "id": "enqueue",
+      "lane": "visual",
+      "col": 1,
+      "type": "messagebus",
+      "label": "Queue / reuse job",
+      "sublabel": "8 jobs; 1 render slot",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 17,
+          "end_line": 18
+        },
+        {
+          "path": "backend/animation.py",
+          "line": 190,
+          "end_line": 201
+        }
+      ]
+    },
+    {
+      "id": "storyboard",
+      "lane": "visual",
+      "col": 2,
+      "type": "cloud",
+      "label": "Build storyboard",
+      "sublabel": "Typed source-backed steps",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 126,
+          "end_line": 143
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "lane": "visual",
+      "col": 3,
+      "type": "security",
+      "label": "Check and review",
+      "sublabel": "Quotes + teaching review",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 144,
+          "end_line": 161
+        }
+      ],
+      "tag": "One correction"
+    },
+    {
+      "id": "render",
+      "lane": "visual",
+      "col": 4,
+      "type": "backend",
+      "label": "Render with Manim",
+      "sublabel": "Fixed script; 240s limit",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 162,
+          "end_line": 175
+        }
+      ]
+    },
+    {
+      "id": "ready",
+      "lane": "visual",
+      "col": 5,
+      "type": "frontend",
+      "label": "Serve clips and stills",
+      "sublabel": "Manifest + owned URLs",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 173,
+          "end_line": 176
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1383,
+          "end_line": 1397
+        }
+      ]
+    },
+    {
+      "id": "text",
+      "lane": "fallback",
+      "col": 4,
+      "type": "frontend",
+      "label": "Keep text available",
+      "sublabel": "Failed job can be retried",
+      "sources": [
+        {
+          "path": "backend/animation.py",
+          "line": 179,
+          "end_line": 187
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "file-validate",
+      "from": "file",
+      "to": "validate"
+    },
+    {
+      "id": "validate-extract",
+      "from": "validate",
+      "to": "extract"
+    },
+    {
+      "id": "extract-store",
+      "from": "extract",
+      "to": "store"
+    },
+    {
+      "id": "store-read",
+      "from": "store",
+      "to": "read"
+    },
+    {
+      "id": "read-delete",
+      "from": "read",
+      "to": "delete"
+    },
+    {
+      "id": "record-decode",
+      "from": "record",
+      "to": "decode"
+    },
+    {
+      "id": "decode-transcribe",
+      "from": "decode",
+      "to": "transcribe"
+    },
+    {
+      "id": "transcribe-recording",
+      "from": "transcribe",
+      "to": "recording"
+    },
+    {
+      "id": "recording-answer",
+      "from": "recording",
+      "to": "answer"
+    },
+    {
+      "id": "speak-signature",
+      "from": "speak",
+      "to": "signature"
+    },
+    {
+      "id": "signature-cached",
+      "from": "signature",
+      "to": "cached"
+    },
+    {
+      "id": "cached-tts",
+      "from": "cached",
+      "to": "tts",
+      "label": "Miss"
+    },
+    {
+      "id": "cached-play",
+      "from": "cached",
+      "to": "play",
+      "label": "Cache hit",
+      "role": "branch"
+    },
+    {
+      "id": "tts-wav",
+      "from": "tts",
+      "to": "wav"
+    },
+    {
+      "id": "wav-play",
+      "from": "wav",
+      "to": "play"
+    },
+    {
+      "id": "help-enqueue",
+      "from": "help",
+      "to": "enqueue"
+    },
+    {
+      "id": "enqueue-storyboard",
+      "from": "enqueue",
+      "to": "storyboard",
+      "label": "New job"
+    },
+    {
+      "id": "enqueue-ready",
+      "from": "enqueue",
+      "to": "ready",
+      "label": "Already ready",
+      "role": "branch"
+    },
+    {
+      "id": "storyboard-review",
+      "from": "storyboard",
+      "to": "review"
+    },
+    {
+      "id": "review-storyboard",
+      "from": "review",
+      "to": "storyboard",
+      "label": "Correct once",
+      "role": "return"
+    },
+    {
+      "id": "review-render",
+      "from": "review",
+      "to": "render",
+      "label": "Approved"
+    },
+    {
+      "id": "render-ready",
+      "from": "render",
+      "to": "ready"
+    },
+    {
+      "id": "review-text",
+      "from": "review",
+      "to": "text",
+      "label": "Still rejected",
+      "role": "error"
+    },
+    {
+      "id": "render-text",
+      "from": "render",
+      "to": "text",
+      "label": "Failed / timeout",
+      "role": "error"
+    }
+  ],
+  "mainPath": [
+    "help",
+    "enqueue",
+    "storyboard",
+    "review",
+    "render",
+    "ready"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Storage and fallback",
+      "items": [
+        "Study uploads retain extracted passages. Conversation attachments and audio also retain private files with database metadata.",
+        "Groq transcription falls back to structured extraction on the paths coded in media.py; speech generation requires Gemini.",
+        "Speech reuses matching unexpired owned files. Expired audio/media is cleaned by the reminder dispatcher."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "What animation checks establish",
+      "items": [
+        "Storyboards use fixed card/dot/bar objects and literal evidence. The renderer executes a fixed Python script, not model-generated code.",
+        "Lesson animation uses approved source passages. Conversation animation uses the AI reply as its cited input; it is not independent source verification.",
+        "Text remains available on failure. Session deletion cancels its jobs and removes its generated clips; restart makes interrupted jobs retryable."
+      ]
+    }
+  ]
+}

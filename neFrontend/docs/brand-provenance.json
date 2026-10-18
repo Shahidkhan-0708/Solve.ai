@@ -1,0 +1,15 @@
+{
+  "source": "image(20261014-215116).png",
+  "sha256": "f0131b334bf55d19d4d7494297082659a3f101ace7d5d7b4b0b529565f9f10a8",
+  "processing": "Only surrounding white padding cropped; original uploaded image also retained. Wordmark is never stretched.",
+  "crop_box": [
+    85,
+    453,
+    1171,
+    787
+  ],
+  "logo_size": [
+    1086,
+    334
+  ]
+}

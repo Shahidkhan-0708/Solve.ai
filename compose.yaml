@@ -4,8 +4,11 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-120b}
+      GROQ_REASONING_MODEL: ${GROQ_REASONING_MODEL:-openai/gpt-oss-120b}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.1-flash-lite}
       BRAVE_SEARCH_API_KEY: ${BRAVE_SEARCH_API_KEY:-}
       ALLOWED_ORIGINS: ${SOLVE_ORIGIN:-http://127.0.0.1:3000}
       SECURE_COOKIES: ${SECURE_COOKIES:-false}

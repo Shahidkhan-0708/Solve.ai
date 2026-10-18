@@ -1,0 +1,569 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: material to a source-backed course",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/02-source-course/02-source-course.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "create",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Create session",
+      "sublabel": "Goal, level, time, target",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 840,
+          "end_line": 858
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "material",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Add material",
+      "sublabel": "Text, files, public URL",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 919,
+          "end_line": 954
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "extract",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Extract text",
+      "sublabel": "PDF, DOCX, text, image",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 43,
+          "end_line": 82
+        },
+        {
+          "path": "backend/main.py",
+          "line": 402,
+          "end_line": 477
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "sources",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Save passages",
+      "sublabel": "Limits, digest, 3k chunks",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 358,
+          "end_line": 379
+        },
+        {
+          "path": "backend/main.py",
+          "line": 919,
+          "end_line": 954
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "confirm",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Confirm evidence",
+      "sublabel": "At least one source",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1089,
+          "end_line": 1097
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "search",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Search sources",
+      "sublabel": "Topic or learning goal",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1040,
+          "end_line": 1051
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "candidates",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Discover URLs",
+      "sublabel": "DuckDuckGo + Gemini",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 957,
+          "end_line": 1037
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "fetch",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Fetch safe pages",
+      "sublabel": "Try candidates; add text",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1053,
+          "end_line": 1075
+        },
+        {
+          "path": "backend/main.py",
+          "line": 402,
+          "end_line": 477
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "select",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Select evidence",
+      "sublabel": "First source + keywords",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 482,
+          "end_line": 492
+        }
+      ],
+      "tag": "Up to 20 passages",
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "generate",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Generate course",
+      "sublabel": "Lessons + question criteria",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1098,
+          "end_line": 1104
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "validate",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Validate course",
+      "sublabel": "Quotes, order, questions",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 646,
+          "end_line": 676
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1105,
+          "end_line": 1117
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "install",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Install and save",
+      "sublabel": "New progress; first task",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 786,
+          "end_line": 790
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1118,
+          "end_line": 1120
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "public",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Show journey",
+      "sublabel": "No private answer keys",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 315,
+          "end_line": 356
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "reject",
+      "lane": "process",
+      "col": 0,
+      "type": "security",
+      "label": "Fix material",
+      "sublabel": "Reject invalid / unreadable",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 358,
+          "end_line": 398
+        },
+        {
+          "path": "backend/main.py",
+          "line": 943,
+          "end_line": 951
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "correct",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Correct draft",
+      "sublabel": "One domain correction",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 1105,
+          "end_line": 1117
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "continue-fetch-extract",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Extract text",
+      "sublabel": "PDF, DOCX, text, image",
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 43,
+          "end_line": 82
+        },
+        {
+          "path": "backend/main.py",
+          "line": 402,
+          "end_line": 477
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "continue-sources-material",
+      "lane": "process",
+      "col": 0,
+      "type": "external",
+      "label": "Add material",
+      "sublabel": "Text, files, public URL",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 919,
+          "end_line": 954
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "continue-reject-material",
+      "lane": "process",
+      "col": 0,
+      "type": "external",
+      "label": "Add material",
+      "sublabel": "Text, files, public URL",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 919,
+          "end_line": 954
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "continue-correct-validate",
+      "lane": "process",
+      "col": 4,
+      "type": "security",
+      "label": "Validate course",
+      "sublabel": "Quotes, order, questions",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 646,
+          "end_line": 676
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1105,
+          "end_line": 1117
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-correct-reject",
+      "lane": "process",
+      "col": 5,
+      "type": "security",
+      "label": "Fix material",
+      "sublabel": "Reject invalid / unreadable",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 358,
+          "end_line": 398
+        },
+        {
+          "path": "backend/main.py",
+          "line": 943,
+          "end_line": 951
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 540,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "create-material",
+      "from": "create",
+      "to": "material"
+    },
+    {
+      "id": "material-extract",
+      "from": "material",
+      "to": "extract",
+      "label": "Supplied"
+    },
+    {
+      "id": "extract-sources",
+      "from": "extract",
+      "to": "sources"
+    },
+    {
+      "id": "sources-confirm",
+      "from": "sources",
+      "to": "confirm"
+    },
+    {
+      "id": "material-search",
+      "from": "material",
+      "to": "search",
+      "label": "Search",
+      "role": "branch"
+    },
+    {
+      "id": "search-candidates",
+      "from": "search",
+      "to": "candidates"
+    },
+    {
+      "id": "candidates-fetch",
+      "from": "candidates",
+      "to": "fetch"
+    },
+    {
+      "id": "fetch-extract",
+      "from": "fetch",
+      "to": "continue-fetch-extract",
+      "label": "Found text"
+    },
+    {
+      "id": "sources-material",
+      "from": "sources",
+      "to": "continue-sources-material",
+      "label": "Add more",
+      "role": "branch"
+    },
+    {
+      "id": "confirm-select",
+      "from": "confirm",
+      "to": "select",
+      "label": "Confirmed"
+    },
+    {
+      "id": "select-generate",
+      "from": "select",
+      "to": "generate"
+    },
+    {
+      "id": "generate-validate",
+      "from": "generate",
+      "to": "validate"
+    },
+    {
+      "id": "validate-install",
+      "from": "validate",
+      "to": "install",
+      "label": "Valid"
+    },
+    {
+      "id": "install-public",
+      "from": "install",
+      "to": "public"
+    },
+    {
+      "id": "validate-correct",
+      "from": "validate",
+      "to": "correct",
+      "label": "Invalid",
+      "role": "branch"
+    },
+    {
+      "id": "correct-validate",
+      "from": "correct",
+      "to": "continue-correct-validate",
+      "label": "Recheck",
+      "role": "branch"
+    },
+    {
+      "id": "extract-reject",
+      "from": "extract",
+      "to": "reject",
+      "label": "Invalid input",
+      "role": "error"
+    },
+    {
+      "id": "correct-reject",
+      "from": "correct",
+      "to": "continue-correct-reject",
+      "label": "Still invalid",
+      "role": "error"
+    },
+    {
+      "id": "reject-material",
+      "from": "reject",
+      "to": "continue-reject-material",
+      "label": "Replace / retry",
+      "role": "branch"
+    }
+  ],
+  "mainPath": [
+    "create",
+    "material",
+    "extract",
+    "sources",
+    "confirm",
+    "select",
+    "generate",
+    "validate",
+    "install",
+    "public"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Current input limits",
+      "items": [
+        "Up to 10 sources and 180,000 extracted characters per session; uploads up to 25 MB.",
+        "Text-based PDFs allow up to 100 pages; unreadable PDF pages are rejected. Separate JPG/PNG uploads use AI text extraction.",
+        "URLs reject private/reserved addresses, pin DNS and validate every redirect."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Approval and model boundary",
+      "items": [
+        "The search endpoint attempts to fetch discovered pages into the source collection. The resource-links endpoint is a separate manual discovery aid.",
+        "Learner confirmation still gates course generation. Validation checks 1–8 concepts, prerequisite order, distinct questions and literal source quotations.",
+        "Final checks require worked steps, teach-back and reasoning criteria. Failed generation leaves the prior saved sources available."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,588 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: request boundaries and structured AI gateway",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/04-ai-gateway/04-ai-gateway.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "API request",
+      "sublabel": "Cookies + request metadata",
+      "sources": [
+        {
+          "path": "neFrontend/lib/api.mjs",
+          "line": 11,
+          "end_line": 40
+        }
+      ],
+      "yOffset": -660,
+      "width": 160
+    },
+    {
+      "id": "owner",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Resolve ownership",
+      "sublabel": "Guest hash / account",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 98,
+          "end_line": 109
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "guard",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Validate mutation",
+      "sublabel": "Origin, size, rate, revision",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 111,
+          "end_line": 145
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "route",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Validate route",
+      "sublabel": "Owner and domain state",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 272,
+          "end_line": 277
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1089,
+          "end_line": 1097
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1155,
+          "end_line": 1188
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "commit",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Check and save",
+      "sublabel": "Route-owned transaction",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 280,
+          "end_line": 300
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1105,
+          "end_line": 1120
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1265,
+          "end_line": 1274
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "response",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Public response",
+      "sublabel": "Private fields removed",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 315,
+          "end_line": 356
+        }
+      ],
+      "yOffset": 660,
+      "width": 160
+    },
+    {
+      "id": "configured",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "AI configured?",
+      "sublabel": "Groq or Gemini key",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 522,
+          "end_line": 524
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "quota",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Charge AI quotas",
+      "sublabel": "Owner + deployment",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 525,
+          "end_line": 529
+        },
+        {
+          "path": "backend/main.py",
+          "line": 85,
+          "end_line": 95
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "slot",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Acquire AI slot",
+      "sublabel": "Three shared slots",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 48,
+          "end_line": 51
+        },
+        {
+          "path": "backend/main.py",
+          "line": 526,
+          "end_line": 531
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "call",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Call Groq / Gemini",
+      "sublabel": "JSON + evidence boundary",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 517,
+          "end_line": 598
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "parse",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Validate output",
+      "sublabel": "Finish reason + Pydantic",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 599,
+          "end_line": 644
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "typed",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Return typed result",
+      "sublabel": "No direct model state write",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 627,
+          "end_line": 628
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "unavailable",
+      "lane": "process",
+      "col": 0,
+      "type": "security",
+      "label": "AI unavailable",
+      "sublabel": "503; demo remains usable",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 522,
+          "end_line": 524
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "retry",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Retry transient error",
+      "sublabel": "Backoff within deadline",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 527,
+          "end_line": 529
+        },
+        {
+          "path": "backend/main.py",
+          "line": 587,
+          "end_line": 595
+        },
+        {
+          "path": "backend/main.py",
+          "line": 629,
+          "end_line": 633
+        }
+      ],
+      "tag": "3 attempts / 120s",
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "error",
+      "lane": "process",
+      "col": 0,
+      "type": "security",
+      "label": "Return error",
+      "sublabel": "Quota, timeout or rejection",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 592,
+          "end_line": 623
+        },
+        {
+          "path": "backend/main.py",
+          "line": 629,
+          "end_line": 644
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "repair",
+      "lane": "process",
+      "col": 4,
+      "type": "backend",
+      "label": "Repair storyboard",
+      "sublabel": "First schema failure only",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 634,
+          "end_line": 642
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-route-commit",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Check and save",
+      "sublabel": "Route-owned transaction",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 280,
+          "end_line": 300
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1105,
+          "end_line": 1120
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1265,
+          "end_line": 1274
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "continue-retry-call",
+      "lane": "process",
+      "col": 1,
+      "type": "cloud",
+      "label": "Call Groq / Gemini",
+      "sublabel": "JSON + evidence boundary",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 517,
+          "end_line": 598
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-parse-error",
+      "lane": "process",
+      "col": 4,
+      "type": "security",
+      "label": "Return error",
+      "sublabel": "Quota, timeout or rejection",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 592,
+          "end_line": 623
+        },
+        {
+          "path": "backend/main.py",
+          "line": 629,
+          "end_line": 644
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "continue-repair-call",
+      "lane": "process",
+      "col": 4,
+      "type": "cloud",
+      "label": "Call Groq / Gemini",
+      "sublabel": "JSON + evidence boundary",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 517,
+          "end_line": 598
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 540,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-owner",
+      "from": "request",
+      "to": "owner"
+    },
+    {
+      "id": "owner-guard",
+      "from": "owner",
+      "to": "guard"
+    },
+    {
+      "id": "guard-route",
+      "from": "guard",
+      "to": "route"
+    },
+    {
+      "id": "route-configured",
+      "from": "route",
+      "to": "configured",
+      "label": "Needs AI"
+    },
+    {
+      "id": "route-commit",
+      "from": "route",
+      "to": "continue-route-commit",
+      "label": "Local / demo",
+      "role": "branch"
+    },
+    {
+      "id": "configured-quota",
+      "from": "configured",
+      "to": "quota",
+      "label": "Yes"
+    },
+    {
+      "id": "configured-unavailable",
+      "from": "configured",
+      "to": "unavailable",
+      "label": "No",
+      "role": "error"
+    },
+    {
+      "id": "quota-slot",
+      "from": "quota",
+      "to": "slot"
+    },
+    {
+      "id": "slot-call",
+      "from": "slot",
+      "to": "call"
+    },
+    {
+      "id": "call-parse",
+      "from": "call",
+      "to": "parse",
+      "label": "Response received"
+    },
+    {
+      "id": "call-retry",
+      "from": "call",
+      "to": "retry",
+      "label": "Transient",
+      "role": "branch"
+    },
+    {
+      "id": "retry-call",
+      "from": "retry",
+      "to": "continue-retry-call",
+      "label": "Retry budget",
+      "role": "branch"
+    },
+    {
+      "id": "retry-error",
+      "from": "retry",
+      "to": "error",
+      "label": "Exhausted",
+      "role": "error"
+    },
+    {
+      "id": "parse-typed",
+      "from": "parse",
+      "to": "typed",
+      "label": "Valid"
+    },
+    {
+      "id": "parse-error",
+      "from": "parse",
+      "to": "continue-parse-error",
+      "label": "Invalid / refusal",
+      "role": "error"
+    },
+    {
+      "id": "parse-repair",
+      "from": "parse",
+      "to": "repair",
+      "label": "Storyboard eligible",
+      "role": "branch"
+    },
+    {
+      "id": "repair-call",
+      "from": "repair",
+      "to": "continue-repair-call",
+      "label": "Revised prompt",
+      "role": "branch"
+    },
+    {
+      "id": "typed-commit",
+      "from": "typed",
+      "to": "commit",
+      "label": "Domain checks"
+    },
+    {
+      "id": "commit-response",
+      "from": "commit",
+      "to": "response"
+    }
+  ],
+  "mainPath": [
+    "request",
+    "owner",
+    "guard",
+    "route",
+    "configured",
+    "quota",
+    "slot",
+    "call",
+    "parse",
+    "typed",
+    "commit",
+    "response"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Exact provider selection",
+      "items": [
+        "Groq is selected when its key exists, unless a Gemini key and a GEMINI_MODEL beginning gemini- select Gemini.",
+        "Groq tries the configured model, then coded alternatives on HTTP 404. Gemini uses its configured model and JSON schema format.",
+        "Chat streaming, source search, transcription and speech have separate call paths; they do not inherit every retry rule shown here."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Trust and concurrency",
+      "items": [
+        "Source text, learner answers and preferences are untrusted data. Server-side validators still enforce structure and domain rules.",
+        "Per-session locks and compare-and-update revisions protect study mutations within one API process. Model calls share a three-slot semaphore.",
+        "Owner quota is charged per generate call; deployment quota is charged per outer attempt. Domain-level course/feedback correction is separate from transient retries."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

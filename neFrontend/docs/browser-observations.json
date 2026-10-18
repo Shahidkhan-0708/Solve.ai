@@ -1,0 +1,21 @@
+{
+  "screensOpened": 42,
+  "selectedDesktopViewport": [
+    1280,
+    1024
+  ],
+  "selectedMobileViewport": [
+    390,
+    884
+  ],
+  "originalScreenshotDimensionsSupplied": false,
+  "reportedPageOverflow": false,
+  "brokenImageRequests": 0,
+  "applicationConsoleErrors": [],
+  "graphMotionVerified": "stitch-graph-flow; observed changing stroke-dashoffset",
+  "reducedMotionVerified": true,
+  "visualZeroDifferenceCertified": false,
+  "screenshotCaptureLimitation": "Browser protocol capture timed out; original new-export screenshots absent",
+  "browserOfflineReloadVerified": false,
+  "nativeInstallationVerified": false
+}

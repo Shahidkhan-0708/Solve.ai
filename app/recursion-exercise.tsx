@@ -25,7 +25,7 @@ export default function RecursionExercise() {
   }
 
   return <section className="recursion-exercise" aria-label="Interactive recursion exercise">
-    <div className="section-heading"><h4>Try a changed input</h4><span>Practice sandbox</span></div>
+    <div className="section-heading"><h4>Try a changed input</h4></div>
     <p className="form-help">Predict the result, then follow the calls and returns. This exploration does not change your progress.</p>
     <label htmlFor={id + '-input'}>Starting input</label>
     <select id={id + '-input'} value={input} onChange={e => reset(Number(e.target.value))}>

@@ -1,0 +1,623 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: accounts, goals, flashcards and reminders",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/07-workspace/07-workspace.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "identity",
+      "label": "Identity and preferences"
+    },
+    {
+      "id": "goals",
+      "label": "Longer-term goals"
+    },
+    {
+      "id": "cards",
+      "label": "Flashcard recall"
+    },
+    {
+      "id": "reminders",
+      "label": "Explicit reminders"
+    },
+    {
+      "id": "fallback",
+      "label": "Unavailable or deferred"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "guest",
+      "lane": "identity",
+      "col": 0,
+      "type": "frontend",
+      "label": "Guest workspace",
+      "sublabel": "Hashed owner cookie",
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 98,
+          "end_line": 109
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "challenge",
+      "lane": "identity",
+      "col": 1,
+      "type": "security",
+      "label": "Sign-in nonce",
+      "sublabel": "Google client",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 122,
+          "end_line": 134
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "verify",
+      "lane": "identity",
+      "col": 2,
+      "type": "security",
+      "label": "Verify Google",
+      "sublabel": "Token + nonce + expiry",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 136,
+          "end_line": 155
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "claim",
+      "lane": "identity",
+      "col": 3,
+      "type": "external",
+      "label": "Claim guest data",
+      "sublabel": "Explicit opt-in",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 77,
+          "end_line": 89
+        },
+        {
+          "path": "backend/accounts.py",
+          "line": 169,
+          "end_line": 170
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "login",
+      "lane": "identity",
+      "col": 4,
+      "type": "database",
+      "label": "Login session",
+      "sublabel": "Revocable token",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 156,
+          "end_line": 179
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "profile",
+      "lane": "identity",
+      "col": 5,
+      "type": "frontend",
+      "label": "Preferences",
+      "sublabel": "Profile revision",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 95,
+          "end_line": 114
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "goal",
+      "lane": "goals",
+      "col": 0,
+      "type": "external",
+      "label": "Create goal",
+      "sublabel": "Hours + deadline",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 692,
+          "end_line": 698
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "roadmap",
+      "lane": "goals",
+      "col": 1,
+      "type": "cloud",
+      "label": "AI roadmap",
+      "sublabel": "Weekly milestones",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 722,
+          "end_line": 725
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "allocation",
+      "lane": "goals",
+      "col": 2,
+      "type": "security",
+      "label": "Check allocation",
+      "sublabel": "Weeks + hours",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 726,
+          "end_line": 735
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "savegoal",
+      "lane": "goals",
+      "col": 3,
+      "type": "database",
+      "label": "Save plan",
+      "sublabel": "Keep completed work",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 727,
+          "end_line": 737
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "link",
+      "lane": "goals",
+      "col": 4,
+      "type": "backend",
+      "label": "Link session",
+      "sublabel": "Verify ownership",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 739,
+          "end_line": 744
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "milestone",
+      "lane": "goals",
+      "col": 5,
+      "type": "external",
+      "label": "Complete milestone",
+      "sublabel": "Learner action",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 746,
+          "end_line": 752
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "card",
+      "lane": "cards",
+      "col": 0,
+      "type": "external",
+      "label": "Save card",
+      "sublabel": "Optional concept link",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 761,
+          "end_line": 766
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "recall",
+      "lane": "cards",
+      "col": 1,
+      "type": "external",
+      "label": "Recall answer",
+      "sublabel": "Answer + rating",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 773,
+          "end_line": 776
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "assess",
+      "lane": "cards",
+      "col": 2,
+      "type": "cloud",
+      "label": "Assess card",
+      "sublabel": "Compare with back",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 774,
+          "end_line": 776
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "schedule",
+      "lane": "cards",
+      "col": 3,
+      "type": "backend",
+      "label": "FSRS review",
+      "sublabel": "Correct / Again",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 777,
+          "end_line": 780
+        },
+        {
+          "path": "backend/main.py",
+          "line": 763,
+          "end_line": 772
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "savecard",
+      "lane": "cards",
+      "col": 5,
+      "type": "database",
+      "label": "Save reviews",
+      "sublabel": "Keep uncertain schedule",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 777,
+          "end_line": 783
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "reminder",
+      "lane": "reminders",
+      "col": 0,
+      "type": "external",
+      "label": "Set reminder",
+      "sublabel": "Future date + time",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 811,
+          "end_line": 814
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "persist",
+      "lane": "reminders",
+      "col": 1,
+      "type": "database",
+      "label": "Save reminder",
+      "sublabel": "Unread; not delivered",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 811,
+          "end_line": 814
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "due",
+      "lane": "reminders",
+      "col": 2,
+      "type": "backend",
+      "label": "Find due",
+      "sublabel": "In-app + 60s poll",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 816,
+          "end_line": 820
+        },
+        {
+          "path": "backend/notifications.py",
+          "line": 42,
+          "end_line": 75
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "eligible",
+      "lane": "reminders",
+      "col": 3,
+      "type": "security",
+      "label": "Push eligible?",
+      "sublabel": "Keys, opt-in, subscriber",
+      "sources": [
+        {
+          "path": "backend/notifications.py",
+          "line": 51,
+          "end_line": 57
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "push",
+      "lane": "reminders",
+      "col": 4,
+      "type": "cloud",
+      "label": "Web push",
+      "sublabel": "Browser service",
+      "sources": [
+        {
+          "path": "backend/notifications.py",
+          "line": 36,
+          "end_line": 39
+        },
+        {
+          "path": "backend/notifications.py",
+          "line": 59,
+          "end_line": 65
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "record",
+      "lane": "reminders",
+      "col": 5,
+      "type": "database",
+      "label": "Save result",
+      "sublabel": "Delivery / retries",
+      "sources": [
+        {
+          "path": "backend/notifications.py",
+          "line": 59,
+          "end_line": 68
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "nogoogle",
+      "lane": "fallback",
+      "col": 0,
+      "type": "frontend",
+      "label": "Continue as guest",
+      "sublabel": "No Google client",
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 123,
+          "end_line": 126
+        }
+      ],
+      "width": 128
+    },
+    {
+      "id": "inapp",
+      "lane": "fallback",
+      "col": 3,
+      "type": "frontend",
+      "label": "In-app reminder",
+      "sublabel": "Push unavailable",
+      "sources": [
+        {
+          "path": "backend/notifications.py",
+          "line": 51,
+          "end_line": 57
+        },
+        {
+          "path": "backend/product.py",
+          "line": 816,
+          "end_line": 820
+        }
+      ],
+      "width": 128
+    }
+  ],
+  "edges": [
+    {
+      "id": "guest-challenge",
+      "from": "guest",
+      "to": "challenge",
+      "label": "Choose sign-in"
+    },
+    {
+      "id": "challenge-verify",
+      "from": "challenge",
+      "to": "verify"
+    },
+    {
+      "id": "verify-claim",
+      "from": "verify",
+      "to": "claim",
+      "label": "Claim requested"
+    },
+    {
+      "id": "claim-login",
+      "from": "claim",
+      "to": "login"
+    },
+    {
+      "id": "verify-login",
+      "from": "verify",
+      "to": "login",
+      "label": "No claim",
+      "role": "branch"
+    },
+    {
+      "id": "login-profile",
+      "from": "login",
+      "to": "profile"
+    },
+    {
+      "id": "challenge-nogoogle",
+      "from": "challenge",
+      "to": "nogoogle",
+      "label": "No client",
+      "role": "error"
+    },
+    {
+      "id": "goal-roadmap",
+      "from": "goal",
+      "to": "roadmap"
+    },
+    {
+      "id": "roadmap-allocation",
+      "from": "roadmap",
+      "to": "allocation"
+    },
+    {
+      "id": "allocation-savegoal",
+      "from": "allocation",
+      "to": "savegoal",
+      "label": "Within budget"
+    },
+    {
+      "id": "savegoal-link",
+      "from": "savegoal",
+      "to": "link"
+    },
+    {
+      "id": "link-milestone",
+      "from": "link",
+      "to": "milestone"
+    },
+    {
+      "id": "card-recall",
+      "from": "card",
+      "to": "recall"
+    },
+    {
+      "id": "recall-assess",
+      "from": "recall",
+      "to": "assess"
+    },
+    {
+      "id": "assess-schedule",
+      "from": "assess",
+      "to": "schedule",
+      "label": "Assessable"
+    },
+    {
+      "id": "assess-savecard",
+      "from": "assess",
+      "to": "savecard",
+      "label": "Uncertain",
+      "role": "branch"
+    },
+    {
+      "id": "schedule-savecard",
+      "from": "schedule",
+      "to": "savecard"
+    },
+    {
+      "id": "reminder-persist",
+      "from": "reminder",
+      "to": "persist"
+    },
+    {
+      "id": "persist-due",
+      "from": "persist",
+      "to": "due"
+    },
+    {
+      "id": "due-eligible",
+      "from": "due",
+      "to": "eligible"
+    },
+    {
+      "id": "eligible-push",
+      "from": "eligible",
+      "to": "push",
+      "label": "Yes"
+    },
+    {
+      "id": "eligible-inapp",
+      "from": "eligible",
+      "to": "inapp",
+      "label": "No",
+      "role": "branch"
+    },
+    {
+      "id": "push-record",
+      "from": "push",
+      "to": "record"
+    }
+  ],
+  "mainPath": [
+    "reminder",
+    "persist",
+    "due",
+    "eligible",
+    "push",
+    "record"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Evidence stays separate",
+      "items": [
+        "Goal check-offs are explicit learner actions. Flashcard history and milestone completion do not fabricate study-session mastery.",
+        "Roadmap validation retains completed milestones and rejects proposed weeks/hours outside the available budget.",
+        "Uncertain flashcard assessment saves feedback without changing its recall schedule."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Record lifecycle and delivery",
+      "items": [
+        "Profiles and workspace records use ownership checks and revisions; history supports archive/restore, export and deletion.",
+        "Push also needs browser permission and a stored subscription. Failed subscriptions returning 404/410 are removed.",
+        "Dispatch limits a reminder to three attempts at least five minutes apart; reminders are explicitly created, not automatically derived from every recall date.",
+        "Sign-out revokes its auth session. Guest-data migration runs only when claim_guest is explicitly requested."
+      ]
+    }
+  ]
+}

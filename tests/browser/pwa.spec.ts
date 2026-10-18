@@ -18,11 +18,14 @@ test('PWA manifest and branded icons support installation', async ({ page, reque
     expect(bytes.readUInt32BE(16) + 'x' + bytes.readUInt32BE(20)).toBe(icon.sizes);
   }
   await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#161616');
-  await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute('content', 'yes');
+  await expect(page.locator('meta[name="mobile-web-app-capable"]')).toHaveAttribute('content', 'yes');
   const appleIcon = await request.get('/icons/solve-180.png');
   expect(appleIcon.ok()).toBe(true);
   const cdp = await page.context().newCDPSession(page);
   const result = await cdp.send('Page.getAppManifest');
   expect(result.errors).toEqual([]);
+  const { installabilityErrors } = await cdp.send('Page.getInstallabilityErrors');
+  // Playwright's isolated context is incognito, where installation is disabled.
+  expect(installabilityErrors.filter(error => error.errorId !== 'in-incognito')).toEqual([]);
   await cdp.detach();
 });

@@ -12,8 +12,8 @@ sys.path.insert(0, str(ROOT))
 from dotenv import load_dotenv
 load_dotenv(ROOT / 'backend' / '.env', encoding='utf-8-sig')
 load_dotenv(ROOT / '.env', encoding='utf-8-sig')
-if not os.getenv('GEMINI_API_KEY', '').strip():
-    raise SystemExit('NOT RUN: configure GEMINI_API_KEY locally. No provider calls made.')
+if not (os.getenv('GROQ_API_KEY', '').strip() or os.getenv('GEMINI_API_KEY', '').strip()):
+    raise SystemExit('NOT RUN: configure GROQ_API_KEY locally. No provider calls made.')
 
 async def run():
     from backend import main
@@ -35,7 +35,7 @@ async def run():
         passed = actual in case['expected']
         outcomes.append({'id': case['id'], 'expected': case['expected'], 'actual': actual, 'passed': passed})
         print(('PASS' if passed else 'FAIL') + ': ' + case['id'] + ' -> ' + actual, flush=True)
-    result = {'dataset': dataset['version'], 'review': dataset['review'], 'model': os.getenv('GEMINI_MODEL', 'gemini-3.5-flash'),
+    result = {'dataset': dataset['version'], 'prompt_version': 'criterion-grading-v2-validation-review', 'review': dataset['review'], 'model': os.getenv('GROQ_MODEL', os.getenv('GEMINI_MODEL', 'openai/gpt-oss-120b')),
               'at': datetime.now(timezone.utc).isoformat(), 'cases': outcomes}
     destination = ROOT / 'tmp' / ('grading-' + datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f') + '.json')
     destination.parent.mkdir(exist_ok=True)

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "63293979-1c62-47d3-ae7c-8c30e9cd81b4",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\02-source-course\\candidate.json",
+  "output": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\02-source-course\\02-source-course.html",
+  "specification": {
+    "sha256": "a2cf60a2a20bf58d4ca691fbda790d0c51cdb6abeb46883ce0e1dfecad1873a3",
+    "bytes": 12828
+  },
+  "artifact": {
+    "sha256": "311b798f398f106ee947c67aa4cc0640835d840f4849f0dc11876302273af19f",
+    "bytes": 845759
+  }
+}

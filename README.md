@@ -1,6 +1,22 @@
+## Active frontend
+
+The active frontend is [`neFrontend`](./neFrontend), served on port 3002. From that folder run `npm install`, then `npm run dev`, or `npm run build` and `npm start` for production/PWA. Its `/api` proxy connects to the FastAPI backend on port 8000; `API_URL` can override that origin. The old `nFrontend` implementation has been migrated into `neFrontend`. Root `npm run dev` and `npm start` launch this frontend together with FastAPI; root `npm run build` builds it.
+
 # Solve
 
 A working learning coach: bring material, check a starting point, get an explanation, apply it, repair missing reasoning, and return for a delayed recall check.
+
+## Core study loop
+
+Create a learning journey with your available time, target grade/outcome and material. After source confirmation, Solve creates source-backed concepts, teach-back questions, reasoning criteria, and fresh application checks. The learning page shows a ranked study plan, supporting source passages, time allocations, and topics outside the current budget.
+
+Use **Edit study plan** to set remaining minutes and optionally supply exam marks for each topic. Complete weights enable ranking by supplied marks divided by estimated concept study time. Missing weights keep the plan based on prerequisites, due recall and confirmed reasoning gaps; marks and expected gains are never guessed. Dependencies come before dependent concepts. Model estimates are not measured learning times or promised exam gains.
+
+Each answer includes a **Minutes spent on this step** field. Adjust the five-minute suggestion to the time you actually spent; the submitted value reduces the budget. This is a manual log, not a background timer. Old attempts have no inferred time charges. When time is used, the next task phase and completed evidence stay saved; set a fresh budget to continue. Returning on another day does not silently reset the budget.
+
+Incorrect or partially correct reasoning moves a supported gap into the plan. An uncertain judgment does not create a confirmed weakness. Teach-back and assisted success still require a fresh independent application. Choose **Study next**, or choose a ready topic in the plan editor, to override the next topic after the current concept's understanding checks. Completed work and the current question are preserved.
+
+The path shows demonstrated topic coverage, not pass probability. Calibrated pass predictions and actual learning benefit need representative outcome data and subject review. The planner, persistence, budgets and progress transitions run in application code; Gemini supplies source-grounded content and proposed rubric judgments.
 
 ## Run
 
@@ -42,7 +58,19 @@ Keep one API worker. Development uses webpack because Turbopack exhausted memory
 
 Open **Try the guided demo**, then answer the starting check or choose **I don't know yet** to see the explanation. Each of the three concepts has Manim-rendered steps with Play, Pause, Replay, Back, and Next controls. Clips stop after one step. Still diagrams respect the operating system's reduced-motion preference; text and citations remain available if video playback fails.
 
-The ten clips and their poster diagrams are bundled in `public/lessons/recursion-v1`. They are rendered once, require no model key, and add no runtime Python dependency. Docker includes these public assets. The first implementation covers the reviewed demo only; generated courses retain their existing text explanations.
+The demo also includes an interactive sandbox for inputs 0 through 7: predict the result, change the input, and step through the calls and returns. It uses deterministic browser logic, works with keyboard controls, and does not update progress or make AI calls.
+
+The ten clips and their poster diagrams are bundled in `public/lessons/recursion-v1`. They are rendered once, require no model key, and add no runtime Python dependency. Docker includes these public assets.
+
+## AI-generated visual lessons
+
+For your own material, opening **Show a worked example** starts a private animation job. Gemini turns the source-backed concept into a small storyboard, with one reasoning change per step. Exact quotations are verified and a separate teaching review checks the storyboard, with one correction attempt. A fixed Manim renderer then splits, transforms, highlights, connects and combines validated cards, quantities and arrows. No model-generated Python or HTML is executed.
+
+Each step has its own video, still diagram and short explanation. Students control Play, Pause, Replay, Back and Next; reduced motion uses stills. Text remains available while rendering or after failure, with a retry button. Finished clips are reused for that concept. Media requires the session's owner cookie; deleting the session cancels its jobs and removes its clips.
+
+Install the pinned backend requirements to enable rendering. Ubuntu also needs `build-essential python3.12-dev pkg-config libcairo2-dev libpango1.0-dev fonts-dejavu-core ffmpeg`; Docker installs its renderer dependencies. The API Python environment must contain Manim, or set `MANIM_PYTHON` to another Python environment containing the pinned Manim, FastAPI and Pydantic packages. No LaTeX is required. Keep one API process: the queue runs one job at a time, accepts at most eight jobs, and limits each render to four minutes. Interrupted jobs become retryable after restart.
+
+Run `.venv/bin/python scripts/check-animation.py` for an isolated live source-to-video check; it makes Gemini calls and saves sample clips under `tmp/animation-check`. The visuals currently use schematic cards, dots, bars and arrows, with 2–8 steps and at most six objects per step. They do not generate arbitrary anatomy, 3D scenes or narration. Automated source and model checks do not replace subject review.
 
 To regenerate assets on Windows (Python 3.12):
 
@@ -54,13 +82,13 @@ On macOS/Linux use `python3 -m venv tmp/manim-env` and `tmp/manim-env/bin/python
 
 ## Enable live AI and search
 
-Set GEMINI_API_KEY in the project-root .env (copy .env.example if needed), or use backend/.env. Both the backend and live check read the root file; existing process variables take precedence, followed by backend/.env, then root .env. Restart the servers after changing configuration. GEMINI_MODEL defaults to gemini-3.5-flash and must support JSON Schema structured outputs. The backend uses Gemini's native generateContent API with server-side authentication; see [Google's structured output guide](https://ai.google.dev/gemini-api/docs/generate-content/structured-output).
+Set GEMINI_API_KEY in the project-root .env (copy .env.example if needed), or use backend/.env. Both the backend and live check read the root file; existing process variables take precedence, followed by backend/.env, then root .env. Restart the servers after changing configuration. GEMINI_MODEL defaults to gemini-3.1-flash-lite and must support JSON Schema structured outputs. The backend uses Gemini's native generateContent API with server-side authentication; see [Google's structured output guide](https://ai.google.dev/gemini-api/docs/generate-content/structured-output).
 
 Live sessions send selected source passages and submitted answers to Google Gemini. The reviewed demo uses local, deterministic numeric checks and does not call the provider. Free-form understanding cannot be assessed by that demo.
 
-BRAVE_SEARCH_API_KEY is optional. With a key, resource discovery returns public search results; without one, it provides clearly labelled Google/YouTube search links. Results are not ingested until the learner verifies fit and adds the relevant URL or text. Dynamic/login-required pages fall back to copying permitted text.
+Resource discovery uses the configured Gemini API with Google Search grounding. Only returned web-source metadata is shown as search results. Without a key or when grounding is unavailable, it provides clearly labelled Google/YouTube search links. Results are not ingested until the learner verifies fit and adds the relevant URL or text. Dynamic/login-required pages fall back to copying permitted text.
 
-No API keys are sent to the browser. The live AI wire path is implemented and covered with a mocked provider contract; actual provider generation needs a real key and subject review. After configuring the key, run `.venv/bin/python scripts/check-live.py` (or the WSL equivalent). This makes paid provider calls using an isolated temporary database and checks generation, quotations, an instruction-only answer, reference grading, and fresh practice. Without a key it exits with NOT RUN, not a passing result.
+No API keys are sent to the browser. The live flow has been verified with Gemini 3.1 Flash-Lite on the original recursion notes and a draft fractions source pack. It checks generation, exact source quotes, instruction-only answers, reference grading, and teach-back before independent practice. These integration checks do not replace subject review or a learner pilot. After configuring the key, run `.venv/bin/python scripts/check-live.py` (or the WSL equivalent). This makes paid provider calls using an isolated temporary database and checks generation, quotations, an instruction-only answer, reference grading, and fresh practice. Without a key it exits with NOT RUN, not a passing result.
 
 ## Supported material and boundaries
 
@@ -70,8 +98,10 @@ No API keys are sent to the browser. The live AI wire path is implemented and co
 - Full extracted source text stays available. Up to 20 passages are selected for the first journey; the UI states selected/total coverage.
 - Quoted passages must exist in the supplied sources. This verifies provenance, not that every generated explanation or grade is factually correct.
 - Learning plans have up to eight concepts in prerequisite order. Initial checks do not count as demonstrated understanding.
-- Correct repair answers lead to another application question. Ambiguous answers do not advance progress.
-- Demonstrated concepts are scheduled for a recall check after 24 hours. Rechecked means correct on the delayed check, not guaranteed mastery.
+- New live courses include reasoning criteria and teach-back before a fresh application. Ambiguous answers do not advance progress; contradictory rubric judgments are rejected. Old sessions without those fields still load.
+- Worked explanations are hidden during independent checks. Requesting worked/source help is saved; a correct assisted answer leads to another independent application rather than demonstrated progress.
+- Feedback shows the learner answer, individual reasoning checks and supporting source references. Failed next-question generation retains the assessment and resumes without regrading the submitted answer.
+- The first recall check is scheduled after 24 hours. Later checks use FSRS 6.3.2 and saved review history, with at least a day between delayed checks. Hard/Good/Easy ratings affect scheduling only after correct, unassisted recall. Incorrect recall uses Again; uncertain grades leave the schedule unchanged. Successfully rechecked concepts remain eligible for later review. These are practice records, not calibrated mastery probabilities.
 - Available time and level guide plan generation. The optional deadline supplies context; this release does not have a calendar or deadline notification scheduler.
 
 ## Data and operations
@@ -131,3 +161,9 @@ Public installation requires HTTPS; localhost works for development. This versio
 Run the installation metadata check with both services available:
 
     npm run test:e2e -- --grep PWA
+
+## Live grading benchmark
+
+Run `.venv/bin/python scripts/check-grading.py` with the configured key. The seven-case draft dataset in tests/grading-cases.json covers valid paraphrases, incomplete reasoning, wrong rules, ambiguous references, instruction attacks, numeric answers without reasoning, and conflicting source material. It uses the same assessment function as the app, with paced requests and temporary data. Outcome-only reports, model and prompt/dataset versions are saved under ignored tmp/. The revised dataset passed on Gemini 3.1 Flash-Lite on 2026-10-14; independent reviewer approval remains required.
+
+To check a second subject, run `.venv/bin/python scripts/check-live.py pilot/fractions-source.md`. This draft original source pack passed the same integration flow, but has not received independent subject approval or learner efficacy testing. No additional provider or search key is required.

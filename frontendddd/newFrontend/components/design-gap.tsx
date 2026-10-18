@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function DesignGap({title}:{title:string}) {return <section className="design-gap"><span className="font-code text-code uppercase">Design source missing</span><h1 className="mt-3">{title}</h1><p>The attached ZIP does not contain an HTML export or screenshot for this screen. Its navigation is connected, but an exact implementation needs the corresponding design source.</p><Link className="modal-action primary inline-block" href="/">Return to Learning Workspace</Link></section>;}

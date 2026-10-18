@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw } from 'lucide-react';
 import animations from './demo-animation.json';
+import GeneratedScene from './generated-scene';
+import type { VisualScene } from './api';
 
 function StepVisual({ clip, text, still }: { clip: typeof animations[number][number]; text: string; still: boolean }) {
   const video = useRef<HTMLVideoElement>(null);
@@ -28,18 +30,18 @@ function StepVisual({ clip, text, still }: { clip: typeof animations[number][num
           onEnded={() => setPlaying(false)} onError={() => setFailed(true)} />}
     </div>
     <div className="animation-playback">
-      {still || failed ? <span>{failed ? 'Video unavailable. You can still follow the illustrated steps.' : 'Still diagram · take your time'}</span> : <>
+      {still || failed ? failed && <span>Video unavailable. Follow the illustrated steps.</span> : <>
         <button type="button" className="text-button" onClick={playing ? () => video.current?.pause() : replay}>
           {playing ? <Pause size={16} /> : played ? <RotateCcw size={16} /> : <Play size={16} />}
           {playing ? 'Pause step' : played ? 'Replay step' : 'Play step'}
-        </button><span>Plays once. You choose when to continue.</span>
+        </button>
       </>}
     </div>
     {playError && <p role="status" className="form-help">Playback could not start. Try the video&apos;s play control.</p>}
   </>;
 }
 
-export default function AnimatedLesson({ concept, steps }: { concept: number; steps: string[] }) {
+export default function AnimatedLesson({ concept, steps, scenes = [], demo = true, renderedClips, titles = [] }: { concept: number; steps: string[]; scenes?: VisualScene[]; demo?: boolean; renderedClips?: { video: string; still: string }[]; titles?: string[] }) {
   const [step, setStep] = useState(0);
   const [still, setStill] = useState(false);
   useEffect(() => {
@@ -49,22 +51,23 @@ export default function AnimatedLesson({ concept, steps }: { concept: number; st
     preference.addEventListener('change', update);
     return () => preference.removeEventListener('change', update);
   }, []);
-  const clips = animations[concept];
+  const clips = renderedClips || (demo ? animations[concept] : undefined);
+  const generated = !renderedClips && scenes.length > 0 && scenes.length === steps.length;
 
-  // shortcut: these clips cover the reviewed recursion demo only; add scene plans before supporting generated courses.
-  if (!clips || clips.length !== steps.length) return <ol>{steps.map((text, i) => <li key={i}>{text}</li>)}</ol>;
+  if (!generated && (!clips || clips.length !== steps.length)) return <ol>{steps.map((text, i) => <li key={i}>{text}</li>)}</ol>;
 
   return <section className="animated-lesson" aria-label="Step-by-step visual explanation">
     <div className="animation-heading"><span>LET&apos;S BREAK IT DOWN</span>
       <label className="animation-mode"><input type="checkbox" checked={still} onChange={e => setStill(e.target.checked)} />Still diagrams</label>
     </div>
-    <StepVisual key={step + '-' + still} clip={clips[step]} text={steps[step]} still={still} />
+    {generated ? <GeneratedScene key={step + '-' + still} scene={scenes[step]} still={still} /> :
+      <StepVisual key={step + '-' + still} clip={clips![step]} text={steps[step]} still={still} />}
     <div className="animation-caption" aria-live="polite" aria-atomic="true">
-      <span>STEP {step + 1} OF {steps.length}</span><p>{steps[step]}</p>
+      <span>STEP {step + 1} OF {steps.length}</span>{titles[step] && <h4>{titles[step]}</h4>}<p>{steps[step]}</p>
     </div>
     <div className="animation-navigation">
       <button type="button" className="secondary" onClick={() => setStep(step - 1)} disabled={step === 0}><ArrowLeft size={16} />Back</button>
-      <div className="animation-dots" aria-hidden="true">{steps.map((_, i) => <span key={i} className={i === step ? 'active' : i < step ? 'visited' : ''} />)}</div>
+      
       {step < steps.length - 1 ? <button type="button" className="primary" onClick={() => setStep(step + 1)}>Next step<ArrowRight size={16} /></button> :
         <button type="button" className="primary" onClick={() => document.getElementById('answer')?.focus()}>Try it yourself<ArrowRight size={16} /></button>}
     </div>

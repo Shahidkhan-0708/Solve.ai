@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
+const frontend = path.join(root, 'neFrontend');
 const production = process.argv.includes('--production');
 const windows = process.platform === 'win32';
 const winPython = path.join(root, '.venv', 'Scripts', 'python.exe');
@@ -22,10 +23,10 @@ if (process.env.PYTHON_BIN) {
 } else {
   apiCommand = existsSync(linuxPython) ? linuxPython : 'python3'; apiArgs = uvicorn;
 }
-console.log('Solve: frontend http://127.0.0.1:3000 | API http://127.0.0.1:8000');
+console.log('Solve: frontend http://127.0.0.1:3002 | API http://127.0.0.1:8000');
 const children = [
-  spawn(apiCommand, apiArgs, { cwd: root, stdio: 'inherit' }),
-  spawn(process.execPath, ['node_modules/next/dist/bin/next', production ? 'start' : 'dev', ...(!production ? ['--webpack'] : []), '--hostname', '127.0.0.1'], { cwd: root, stdio: 'inherit' }),
+  spawn(apiCommand, apiArgs, { cwd: root, stdio: 'inherit', env: { ...process.env, ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'http://localhost:3002,http://127.0.0.1:3002' } }),
+  spawn(process.execPath, ['--max-old-space-size=4096', 'node_modules/next/dist/bin/next', production ? 'start' : 'dev', ...(!production ? ['--webpack'] : []), '--hostname', '127.0.0.1', '--port', '3002'], { cwd: frontend, stdio: 'inherit' }),
 ];
 let stopping = false;
 function stop(code = 0) {

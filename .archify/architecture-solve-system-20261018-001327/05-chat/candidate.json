@@ -1,0 +1,520 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Current: conversations and streamed replies",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/05-chat/05-chat.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "lanes": [
+    {
+      "id": "process",
+      "label": "Workflow · Continue boxes return to the identically named step"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "open",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Open conversation",
+      "sublabel": "Chat / Study workspace",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 517,
+          "end_line": 597
+        }
+      ],
+      "yOffset": -660,
+      "width": 160
+    },
+    {
+      "id": "message",
+      "lane": "process",
+      "col": 2,
+      "type": "external",
+      "label": "Send message",
+      "sublabel": "Text + operation ID",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 619,
+          "end_line": 625
+        }
+      ],
+      "yOffset": -540,
+      "width": 160
+    },
+    {
+      "id": "guard",
+      "lane": "process",
+      "col": 2,
+      "type": "security",
+      "label": "Validate and lock",
+      "sublabel": "Owned, active, one reply",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 622,
+          "end_line": 645
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "persist",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Save request",
+      "sublabel": "User + generating reply",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 646,
+          "end_line": 652
+        }
+      ],
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "context",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Build context",
+      "sublabel": "History, sources, settings",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 307,
+          "end_line": 341
+        }
+      ],
+      "yOffset": -180,
+      "width": 160
+    },
+    {
+      "id": "provider",
+      "lane": "process",
+      "col": 2,
+      "type": "cloud",
+      "label": "Stream provider",
+      "sublabel": "Groq / Gemini; reasoning",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 228,
+          "end_line": 304
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "chunk",
+      "lane": "process",
+      "col": 2,
+      "type": "backend",
+      "label": "Receive chunk",
+      "sublabel": "Mark linked help assisted",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 342,
+          "end_line": 350
+        }
+      ],
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "write",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Persist partial text",
+      "sublabel": "Only while generating",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 350,
+          "end_line": 356
+        }
+      ],
+      "yOffset": 180,
+      "width": 160
+    },
+    {
+      "id": "delta",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Send SSE delta",
+      "sublabel": "Browser appends text",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 357,
+          "end_line": 357
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "complete",
+      "lane": "process",
+      "col": 2,
+      "type": "database",
+      "label": "Finish reply",
+      "sublabel": "Complete + done event",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 358,
+          "end_line": 363
+        }
+      ],
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "history",
+      "lane": "process",
+      "col": 2,
+      "type": "frontend",
+      "label": "Restore history",
+      "sublabel": "Saved replies and status",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 562,
+          "end_line": 597
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "replay",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Replay saved reply",
+      "sublabel": "Same completed operation",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 630,
+          "end_line": 637
+        }
+      ],
+      "yOffset": -420,
+      "width": 160
+    },
+    {
+      "id": "stop",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Stop response",
+      "sublabel": "Persist cancelled state",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 654,
+          "end_line": 659
+        }
+      ],
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "failure",
+      "lane": "process",
+      "col": 4,
+      "type": "database",
+      "label": "Retain partial answer",
+      "sublabel": "Error / interrupted",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 364,
+          "end_line": 371
+        }
+      ],
+      "yOffset": -60,
+      "width": 160
+    },
+    {
+      "id": "regenerate",
+      "lane": "process",
+      "col": 4,
+      "type": "external",
+      "label": "Regenerate",
+      "sublabel": "New ID; original question",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 640,
+          "end_line": 650
+        }
+      ],
+      "yOffset": 540,
+      "width": 160
+    },
+    {
+      "id": "continue-replay-history",
+      "lane": "process",
+      "col": 0,
+      "type": "frontend",
+      "label": "Restore history",
+      "sublabel": "Saved replies and status",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 562,
+          "end_line": 597
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": -300,
+      "width": 160
+    },
+    {
+      "id": "continue-delta-chunk",
+      "lane": "process",
+      "col": 0,
+      "type": "backend",
+      "label": "Receive chunk",
+      "sublabel": "Mark linked help assisted",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 342,
+          "end_line": 350
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 300,
+      "width": 160
+    },
+    {
+      "id": "continue-stop-history",
+      "lane": "process",
+      "col": 4,
+      "type": "frontend",
+      "label": "Restore history",
+      "sublabel": "Saved replies and status",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 562,
+          "end_line": 597
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 420,
+      "width": 160
+    },
+    {
+      "id": "continue-failure-history",
+      "lane": "process",
+      "col": 4,
+      "type": "frontend",
+      "label": "Restore history",
+      "sublabel": "Saved replies and status",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 562,
+          "end_line": 597
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 60,
+      "width": 160
+    },
+    {
+      "id": "continue-regenerate-guard",
+      "lane": "process",
+      "col": 4,
+      "type": "security",
+      "label": "Validate and lock",
+      "sublabel": "Owned, active, one reply",
+      "sources": [
+        {
+          "path": "backend/product.py",
+          "line": 622,
+          "end_line": 645
+        }
+      ],
+      "tag": "Continue",
+      "yOffset": 660,
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "open-message",
+      "from": "open",
+      "to": "message"
+    },
+    {
+      "id": "message-guard",
+      "from": "message",
+      "to": "guard"
+    },
+    {
+      "id": "guard-persist",
+      "from": "guard",
+      "to": "persist",
+      "label": "New operation"
+    },
+    {
+      "id": "persist-context",
+      "from": "persist",
+      "to": "context"
+    },
+    {
+      "id": "context-provider",
+      "from": "context",
+      "to": "provider"
+    },
+    {
+      "id": "provider-chunk",
+      "from": "provider",
+      "to": "chunk"
+    },
+    {
+      "id": "chunk-write",
+      "from": "chunk",
+      "to": "write"
+    },
+    {
+      "id": "write-delta",
+      "from": "write",
+      "to": "delta"
+    },
+    {
+      "id": "delta-chunk",
+      "from": "delta",
+      "to": "continue-delta-chunk",
+      "label": "More text",
+      "role": "branch"
+    },
+    {
+      "id": "delta-complete",
+      "from": "delta",
+      "to": "complete",
+      "label": "Stream ends"
+    },
+    {
+      "id": "complete-history",
+      "from": "complete",
+      "to": "history"
+    },
+    {
+      "id": "guard-replay",
+      "from": "guard",
+      "to": "replay",
+      "label": "Completed ID",
+      "role": "branch"
+    },
+    {
+      "id": "replay-history",
+      "from": "replay",
+      "to": "continue-replay-history"
+    },
+    {
+      "id": "delta-stop",
+      "from": "delta",
+      "to": "stop",
+      "label": "Learner stops",
+      "role": "branch"
+    },
+    {
+      "id": "stop-history",
+      "from": "stop",
+      "to": "continue-stop-history"
+    },
+    {
+      "id": "provider-failure",
+      "from": "provider",
+      "to": "failure",
+      "label": "Provider error",
+      "role": "error"
+    },
+    {
+      "id": "failure-history",
+      "from": "failure",
+      "to": "continue-failure-history"
+    },
+    {
+      "id": "history-regenerate",
+      "from": "history",
+      "to": "regenerate",
+      "label": "Retry answer",
+      "role": "branch"
+    },
+    {
+      "id": "regenerate-guard",
+      "from": "regenerate",
+      "to": "continue-regenerate-guard",
+      "label": "New operation",
+      "role": "branch"
+    }
+  ],
+  "mainPath": [
+    "open",
+    "message",
+    "guard",
+    "persist",
+    "context",
+    "provider",
+    "chunk",
+    "write",
+    "delta",
+    "complete",
+    "history"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Context and assistance",
+      "items": [
+        "Context includes bounded saved history, extracted attachments, preferences and selected passages from an owned linked learning session.",
+        "The first reply chunk marks a linked active study task as assisted. Chat help cannot silently establish independent learning evidence.",
+        "Visual diagrams, response animations, exports and feedback act on owned conversation records; see the media map for rendering."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Saved before streaming",
+      "items": [
+        "The request and empty generating reply are committed before the SSE response starts. Every partial text update is saved.",
+        "Completed operation IDs replay; interrupted IDs require a new regeneration operation. A second generating reply is rejected.",
+        "Startup converts abandoned generating messages to interrupted. Failures preserve the learner question and available partial answer."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Reading continuation boxes",
+      "items": [
+        "A box tagged Continue repeats an existing named step. It represents a return or handoff to that step, not a new service or a separate task.",
+        "The vertical path shows one successful route; labeled branches preserve the other conditions and recovery actions."
+      ]
+    }
+  ]
+}

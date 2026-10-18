@@ -1,0 +1,81 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {readFile,mkdir} from 'node:fs/promises';
+const {chromium}=createRequire(import.meta.url)('playwright');
+const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE});
+console.log('Browser launched');
+const context=await browser.newContext({viewport:{width:1440,height:1000},serviceWorkers:'block'});
+const errors=[],calls=[];
+const profile={name:'',age:null,course:'',education:'',detail:'balanced',playback_speed:1,motion:'device',text_size:'standard',interface_language:'English',explanation_language:'English'};
+const first={id:'thread-one',title:'Explain recursion',mode:'chat',revision:1,updated:Date.now()/1000,messages:[{id:'q1',role:'user',text:'Explain recursion',status:'complete'},{id:'a1',role:'assistant',text:'### The base case\n\n**Stop** when $n = 1$.\n\n* Return one.\n* Otherwise recurse.',status:'complete'}]};
+const second={...first,id:'thread-two',title:'Memory stack',messages:[{id:'q2',role:'user',text:'Draw a memory stack',status:'complete'},{id:'a2',role:'assistant',text:'### Stack frames\n\nEach call gets its own frame.',status:'complete'}]};
+const threads=[first,second];
+const clips=JSON.parse(await readFile(new URL('../public/lessons/recursion-v1/manifest.json',import.meta.url)))[0];
+await context.route('**/api/**',async route=>{
+ const request=route.request(),url=new URL(request.url()),path=url.pathname.replace('/api',''),method=request.method();calls.push({path,method,body:request.postData()});
+ const json=body=>route.fulfill({json:body});
+ if(path==='/health')return json({ok:true});
+ if(path==='/me')return json({id:'browser-owner',profile});
+ if(path==='/capabilities')return json({ai:true});
+ if(path==='/conversations')return json({items:threads.map(({messages,...thread})=>({...thread,matches:[]}))});
+ if(path==='/sessions')return json([]);
+ const thread=threads.find(t=>path.startsWith('/conversations/'+t.id));
+ if(thread){
+  if(path.endsWith('/attachments'))return json([]);
+  if(path.includes('/animations/'))return json({status:'ready',title:'A worked example',steps:clips.map(clip=>({...clip,title:'Base case',explanation:'The base case stops the recursive calls.'}))});
+  if(path.endsWith('/messages')&&method==='POST'){
+   const payload=request.postDataJSON(),id='a'+(thread.messages.length+1);thread.messages.push({id:'q'+id,role:'user',text:payload.text,status:'complete'},{id,role:'assistant',text:'### Without a base case\n\n**Calls continue** until the stack is exhausted.',status:'complete'});
+   await new Promise(resolve=>setTimeout(resolve,1500));
+   return route.fulfill({contentType:'text/event-stream',body:[{type:'start',message_id:id},{type:'delta',message_id:id,text:thread.messages.at(-1).text},{type:'done',message_id:id}].map(event=>'data: '+JSON.stringify(event)+'\n\n').join('')});
+  }
+  return json(thread);
+ }
+ if(path==='/notifications')return json([]);
+ return route.fulfill({status:404,json:{detail:'Unexpected test endpoint: '+path}});
+});
+const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
+try{
+ await page.goto('http://127.0.0.1:3002/conversation?thread=thread-one&mode=chat',{waitUntil:'domcontentloaded'});
+ await page.locator('.learning-workspace[data-backend-ready="true"]').waitFor();
+ assert.equal(await page.locator('.stitch-message-content h3').first().textContent(),'The base case');
+ assert.equal(await page.locator('.stitch-message-content .katex').count(),1);
+ assert.equal(await page.getByRole('button',{name:'Listen',exact:true}).count(),1);
+ console.log('Checking follow-up');
+ await page.getByLabel('Follow-up question',{exact:true}).fill('What goes wrong without the base case?');
+ await page.getByRole('button',{name:'Send message',exact:true}).click();
+ await page.locator('.stitch-solving').filter({hasText:'Generating your explanation'}).waitFor();
+ await page.getByLabel('Follow-up question',{exact:true}).fill('Keep this draft for my next question');
+ assert.equal(await page.getByRole('button',{name:'Send message',exact:true}).isDisabled(),true);
+ await page.locator('.stitch-message-content h3').filter({hasText:'Without a base case'}).waitFor();
+ await page.waitForFunction(()=>document.querySelectorAll('.stitch-response-actions').length===2);
+ assert.equal(await page.getByRole('button',{name:'Listen',exact:true}).count(),2);
+ assert.equal(await page.getByLabel('Follow-up question').inputValue(),'Keep this draft for my next question');
+ assert.equal(await page.getByRole('button',{name:'Send message',exact:true}).isEnabled(),true);
+ console.log('Switching recent thread');
+ await page.locator('.workspace-sidebar .workspace-recent a').filter({hasText:'Memory stack'}).first().click();
+ await page.locator('.stitch-message-content h3').filter({hasText:'Stack frames'}).waitFor();
+ assert.equal(await page.getByText('Draw a memory stack',{exact:true}).isVisible(),true);
+ assert.equal(await page.locator('.stitch-message-content').filter({hasText:'The base case'}).count(),0);
+ console.log('Checking utility actions');
+ await page.getByRole('button',{name:'Notifications',exact:true}).click();await page.getByRole('dialog').waitFor();
+ await page.getByRole('button',{name:'Close',exact:true}).click();
+ await page.getByRole('button',{name:'Add resources',exact:true}).click();await page.getByRole('dialog').waitFor();
+ await page.getByRole('button',{name:'Close dialog',exact:true}).click();
+ await page.getByRole('link',{name:'Solve home',exact:true}).click();
+ await page.locator('.learning-workspace[data-backend-ready="true"],.export-desktop [data-backend-ready="true"]').first().waitFor();
+ await page.getByRole('button',{name:'New session',exact:true}).click();
+ await page.locator('#view-chat-home:visible').waitFor();
+ assert.equal(await page.locator('textarea:visible').first().inputValue(),'');
+ await mkdir('../tmp/workspace-verification',{recursive:true});
+ await page.screenshot({path:'../tmp/workspace-verification/desktop.png',fullPage:true});
+ console.log('Checking mobile');
+ await page.setViewportSize({width:390,height:844});
+ await page.locator('.export-mobile [data-backend-ready="true"],.learning-workspace[data-backend-ready="true"]').first().waitFor();
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ await page.getByRole('button',{name:'Open navigation',exact:true}).click();
+ await page.getByRole('dialog',{name:'Workspace navigation'}).waitFor();
+ await page.getByRole('button',{name:'Close navigation',exact:true}).click();
+ await page.screenshot({path:'../tmp/workspace-verification/mobile.png',fullPage:true});
+ assert.deepEqual(errors,[]);
+ console.log('PASS: formatted saved answers, live solving status, follow-up controls, recent-thread switching, resources, notifications, and mobile navigation.');
+}catch(error){console.error('Browser check failed:',error);console.error((await page.locator('body').innerText()).slice(-3000));await page.screenshot({path:'../tmp/workspace-browser-failure.png',fullPage:true});throw error;}finally{await browser.close();}

@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent / "backend" / ".env", encoding="utf-8-sig")
 load_dotenv(Path(__file__).resolve().parent.parent / ".env", encoding="utf-8-sig")
-if not os.getenv("GEMINI_API_KEY", "").strip():
-    raise SystemExit("NOT RUN: set GEMINI_API_KEY in .env (or backend/.env), then rerun. No provider calls made.")
+if not (os.getenv("GROQ_API_KEY", "").strip() or os.getenv("GEMINI_API_KEY", "").strip()):
+    raise SystemExit("NOT RUN: set GROQ_API_KEY in .env (or backend/.env), then rerun. No provider calls made.")
 
 # This command makes real provider calls and incurs the configured provider's charges.
 with tempfile.TemporaryDirectory(prefix="solve-live-check-") as directory:
@@ -26,14 +26,21 @@ with tempfile.TemporaryDirectory(prefix="solve-live-check-") as directory:
         def post(path, payload):
             response = client.post(path, json=payload, headers={"origin": "http://testserver"})
             if response.status_code != 200:
-                raise SystemExit(f"FAIL: {path.rsplit('/', 1)[-1]} returned HTTP {response.status_code}. Check provider configuration and quota.")
+                detail = response.json().get("detail", "No error detail returned.")
+                raise SystemExit(f"FAIL: {path.rsplit('/', 1)[-1]} returned HTTP {response.status_code}: {detail}")
             return response.json()
 
-        state = post("/api/sessions", {"goal": "Understand recursion using factorial", "minutes": 20})
+        source = Path(sys.argv[1]).read_text(encoding="utf-8-sig") if len(sys.argv) > 1 else DEMO_TEXT
+        goal = "Understand the supplied material and explain its reasoning" if len(sys.argv) > 1 else "Understand recursion using factorial"
+        state = post("/api/sessions", {"goal": goal, "minutes": 30})
         path = "/api/sessions/" + state["id"]
-        post(path+"/sources/text", {"title": "Original recursion notes", "text": DEMO_TEXT})
+        post(path+"/sources/text", {"title": "Original learning notes", "text": source})
         state = post(path+"/start", {"confirmed": True})
         assert state["course"] and state["task"], "Generation did not produce a journey."
+        for concept in state["course"]["concepts"]:
+            assert concept["steps"] and all(step.strip() for step in concept["steps"]), "Worked teaching steps are missing."
+            if concept["scenes"]:
+                assert len(concept["scenes"]) == len(concept["steps"]), "Existing visual scenes do not match their steps."
         assert "_answer" not in state["task"], "Private answer leaked."
         print("PASS: real generation, schema, prerequisite order, and exact source quotes.")
 

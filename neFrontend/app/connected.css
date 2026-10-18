@@ -1,0 +1,68 @@
+.stitch-connected{box-sizing:border-box;width:calc(100% - 32px);max-width:960px;margin:20px auto;padding:24px;border:1px solid #e5e5e5;border-radius:16px;background:#fff;color:#171717;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.stitch-connected h2{font-size:19px;font-weight:600;margin:0 0 16px}.stitch-connected h3{font-size:16px;font-weight:600;margin:0 0 8px}.stitch-connected p{margin:8px 0}.stitch-connected section+section{margin-top:28px;padding-top:24px;border-top:1px solid #e5e5e5}
+.stitch-connected :is(button,a[download]){display:inline-flex;align-items:center;justify-content:center;min-height:40px;margin:6px 8px 6px 0;padding:8px 14px;border:1px solid #d8d8d8;border-radius:9px;background:#fafafa;color:#171717;font:inherit;font-size:13px;cursor:pointer;text-decoration:none}
+.stitch-connected button:hover{background:#f0f0f0}.stitch-connected button:disabled{opacity:.5;cursor:default}.stitch-connected :focus-visible{outline:2px solid #171717;outline-offset:3px}
+.stitch-connected form{display:grid;gap:12px;margin:16px 0}.stitch-connected label{display:grid;gap:6px;font-weight:500}.stitch-connected :is(input,textarea,select){box-sizing:border-box;width:100%;padding:10px;border:1px solid #d8d8d8;border-radius:8px;background:#fff;color:#171717;font:inherit}.stitch-connected textarea{min-height:96px}.stitch-connected input:is([type=checkbox],[type=radio]){width:18px;height:18px;margin:4px}.stitch-connected fieldset label{display:flex;align-items:center;gap:8px;font-weight:400;margin:10px 0}
+.stitch-connected-card{padding:16px;border:1px solid #e6e6e6;border-radius:12px;margin:12px 0;background:#fafafa}.stitch-connected-card[data-focus=true]{border-color:#171717}.stitch-connected summary{padding:10px 0;cursor:pointer;font-weight:500}.stitch-connected :is(ol,ul){padding-left:24px}.stitch-connected li{margin-bottom:12px}.stitch-connected blockquote{padding:12px 16px;border-left:3px solid #d8d8d8;background:#fafafa;white-space:pre-wrap}
+.stitch-connected :is(video,img){width:100%;max-height:560px;object-fit:contain;background:#f7f8f5;border-radius:12px}.stitch-connected-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stitch-connected-actions{display:flex;flex-wrap:wrap}
+@media(max-width:600px){.stitch-connected{padding:16px;width:calc(100% - 20px);margin:12px auto}.stitch-connected :is(button,a[download]){min-height:44px}.stitch-connected h2{font-size:17px}}
+
+[data-backend-learning] > p:first-of-type{white-space:pre-line}
+
+/* Planning uses distinct surfaces so goals, sessions and the roadmap read as separate tasks. */
+.stitch-screen[data-live-page="/plan"] main{background:#f7f8fa!important;padding-bottom:48px!important}
+.stitch-connected.plan-workspace{border:0;background:transparent;box-shadow:none;padding:24px 0;margin-top:20px;max-width:1040px;width:calc(100% - 64px)}
+.plan-heading{position:relative;padding:0 0 28px;max-width:760px}
+.plan-heading .plan-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;color:#657366;margin:0 0 10px}
+.plan-heading h1{font-size:32px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin:0 0 12px;color:#19221c}
+.plan-heading>p:not(.plan-eyebrow){color:#68716b;max-width:540px;margin-bottom:18px}
+.plan-workspace .plan-primary{background:#223c2d;color:#fff;border-color:#223c2d;font-weight:600;padding-inline:18px;box-shadow:0 3px 8px #223c2d18}
+.plan-workspace .plan-primary:hover{background:#172c20}
+.plan-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.plan-overview>div{display:flex;flex-direction:column;gap:4px;padding:20px 24px;background:#edf2ed;border:1px solid #dce5dc;border-radius:14px}
+.plan-overview strong{font-size:28px;line-height:1.3;font-weight:600;color:#284832;font-variant-numeric:tabular-nums}
+.plan-overview span{font-size:12px;color:#526359}
+.plan-workspace>.stitch-connected-section{margin:0 0 24px;padding:24px;border:1px solid #e1e5e1;border-radius:18px;background:#fff;box-shadow:0 2px 3px #17251b03,0 8px 24px #17251b04}
+.plan-workspace>.stitch-connected-section h2{font-size:18px;letter-spacing:-.02em;color:#23362a;margin-bottom:16px;font-weight:650}
+.plan-workspace>.stitch-connected-section>p{color:#717971}
+.plan-workspace .stitch-connected-card{background:#f8faf8;border-color:#e3e9e3;padding:20px;border-radius:12px;margin-top:16px}
+.plan-workspace details{border:1px solid #e2e7e2;border-radius:10px;padding:4px 16px;margin:12px 0;background:#fafcf9}
+.plan-workspace details[open]{background:#fff}
+.plan-workspace summary{color:#294c34;font-weight:600;min-height:24px}
+.plan-workspace button[type=submit]{background:#223c2d;color:#fff;border-color:#223c2d;justify-self:start}
+.plan-workspace :is(button,a[download]){transition:background-color 150ms,color 150ms,box-shadow 150ms}
+.plan-workspace :is(button,a[download]):hover{box-shadow:0 2px 6px #17251b12}
+.plan-workspace :is(button,a[download]):active{scale:.96}
+@media(max-width:600px){.stitch-connected.plan-workspace{width:calc(100% - 32px);padding:16px 0;margin-top:12px}.plan-heading h1{font-size:27px}.plan-overview{gap:8px;margin-bottom:20px}.plan-overview>div{padding:14px 10px;border-radius:12px}.plan-overview strong{font-size:24px}.plan-overview span{font-size:11px}.plan-workspace>.stitch-connected-section{padding:20px;margin-bottom:20px}.plan-workspace .stitch-connected-card{padding:16px}}
+
+.workspace-page-heading{margin-bottom:28px}.workspace-page-heading h1{font-size:28px;line-height:1.25;font-weight:650;letter-spacing:-.03em;margin:0 0 10px}.workspace-page-heading p{color:#68716b;max-width:600px}
+
+
+/* Target status keeps assessment, the next action and topic states in one reading column. */
+.stitch-screen[data-live-page="/target"]{--target-ink:#202020;--target-muted:#616161;--target-line:#e6e6e6;--target-soft:#f6f6f5;background:#fff}
+.stitch-screen[data-live-page="/target"] main{background:#fff!important;padding-top:64px!important;padding-bottom:64px!important}
+.stitch-screen[data-live-page="/target"] [data-local-resources]{display:none!important}
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true]{background:#fff!important;box-shadow:none;border-bottom:1px solid var(--target-line)}
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true] img,.stitch-screen[data-live-page="/target"] [data-workspace-header=true] input{display:none!important}
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true] div:has(>input){display:none!important}
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true] button:has(>.material-symbols-outlined){width:44px;height:44px}
+.target-workspace.stitch-connected{max-width:880px;width:calc(100% - 96px);margin:40px auto 0;padding:0;border:0;border-radius:0;background:transparent;color:var(--target-ink);font-size:16px;line-height:1.6}
+.target-workspace .target-heading{margin-bottom:40px}.target-workspace .target-heading h1{font-size:30px;line-height:1.2;letter-spacing:-.035em;font-weight:650;margin:0 0 10px}.target-workspace .target-heading p{margin:0;color:var(--target-muted)}
+.target-workspace .target-plan-picker{display:grid;gap:8px;max-width:400px;margin-bottom:28px;font-size:14px}
+.target-workspace .target-kicker{font-size:13px;font-weight:550;color:var(--target-muted);margin:0 0 10px}
+.target-workspace>section,.target-workspace>section+section{margin:0;padding:0;border:0}.target-workspace .target-overview{padding-bottom:30px;border-bottom:1px solid var(--target-line)}
+.target-workspace .target-overview h2{font-size:23px;font-weight:600;line-height:1.35;letter-spacing:-.025em;margin:0 0 8px}.target-workspace .target-outcome{color:var(--target-muted);margin:0 0 12px}
+.target-workspace .target-progress-count{display:flex;align-items:baseline;gap:10px;margin:24px 0 12px}.target-progress-count strong{font-size:38px;font-weight:600;line-height:1.1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}.target-progress-count span{font-size:15px;color:var(--target-muted)}
+.target-workspace progress{display:block;width:100%;height:8px;border:0;border-radius:99px;background:var(--target-line);accent-color:#222;overflow:hidden}.target-workspace progress::-webkit-progress-bar{background:var(--target-line)}.target-workspace progress::-webkit-progress-value{background:#222;border-radius:99px}.target-workspace progress::-moz-progress-bar{background:#222;border-radius:99px}
+.target-workspace .target-progress-note{color:var(--target-muted);font-size:13px;margin:10px 0 0}.target-facts{display:flex;gap:40px;margin:24px 0 0}.target-facts>div{display:flex;align-items:baseline;gap:8px}.target-facts dt{font-size:14px;color:var(--target-muted)}.target-facts dd{margin:0;font-size:15px;font-weight:550;font-variant-numeric:tabular-nums}
+.target-workspace .target-next{position:relative;margin:28px 0 36px;padding:24px 220px 24px 24px;background:var(--target-soft);border-radius:12px}.target-workspace .target-next h2{font-size:19px;line-height:1.4;margin:0 0 6px;font-weight:600;letter-spacing:-.02em}.target-workspace .target-next>p:last-of-type{margin:0;color:var(--target-muted);font-size:16px}
+.target-workspace button.target-primary{min-height:44px;margin:0;padding:10px 18px;background:#171717;color:#fff;border-color:#171717;border-radius:8px;font-size:14px;font-weight:550}.target-workspace button.target-primary:hover{background:#333;border-color:#333}.target-workspace .target-next .target-primary{position:absolute;right:24px;top:50%;transform:translateY(-50%)}
+.target-section-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:4px}.target-workspace .target-section-heading h2{margin:0;font-size:18px;font-weight:600;letter-spacing:-.02em}.target-workspace a{color:var(--target-muted);font-size:14px;text-decoration:underline;text-underline-offset:3px}.target-workspace a:visited{color:#5d5366}.target-workspace a:hover{color:var(--target-ink)}
+.target-workspace .target-topics ol{list-style:none;margin:0;padding:0}.target-workspace .target-topics li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:12px;padding:18px 0;margin:0;border-bottom:1px solid var(--target-line)}.target-topic-number{display:grid;place-items:center;width:24px;height:24px;background:var(--target-soft);border-radius:50%;font-size:12px;color:var(--target-muted)}.target-topic-title{font-size:16px;font-weight:500}.target-topic-status{font-size:12px;white-space:nowrap;color:var(--target-muted);background:var(--target-soft);padding:4px 9px;border-radius:6px}.target-topic-status[data-status=understood]{color:#365747;background:#eef4ef}.target-topic-status:is([data-status=practice],[data-status=review]){color:#7b4d1c;background:#faf0e2}
+.target-workspace .target-empty{padding:44px 0;max-width:480px}.target-empty>.material-symbols-outlined{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--target-line);border-radius:12px;margin-bottom:24px;color:var(--target-muted)}.target-workspace .target-empty h2{font-size:23px;font-weight:600;line-height:1.35;letter-spacing:-.025em;margin:0 0 12px}.target-workspace .target-empty p{color:var(--target-muted);margin:0 0 24px}
+@media(max-width:1050px){.target-workspace.stitch-connected{width:calc(100% - 64px)}.target-workspace .target-next{padding-right:24px}.target-workspace .target-next .target-primary{position:static;transform:none;margin-top:18px}}
+@media(max-width:767px){.target-workspace.stitch-connected{width:calc(100% - 40px);margin-top:28px}.target-workspace .target-heading{margin-bottom:32px}.target-workspace .target-heading h1{font-size:28px}.target-facts{flex-wrap:wrap;gap:8px 24px}.target-workspace .target-next{padding:20px;margin-top:24px;margin-bottom:28px}.target-workspace .target-topics li{grid-template-columns:24px minmax(0,1fr);gap:6px 10px;padding:16px 0}.target-topic-status{grid-column:2;justify-self:start}.target-topic-number{grid-row:1/3}.target-workspace .target-empty{padding-top:24px}}
+
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true] button:not([aria-label]):has(>.material-symbols-outlined),.stitch-screen[data-live-page="/target"] [data-workspace-header=true] div:has(>.material-symbols-outlined):not(:has(button,input)){display:none!important}
+
+.stitch-screen[data-live-page="/target"] [data-workspace-header=true] button{min-height:44px}

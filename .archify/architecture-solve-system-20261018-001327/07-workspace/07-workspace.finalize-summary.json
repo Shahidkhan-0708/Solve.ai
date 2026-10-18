@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\07-workspace\\candidate.json",
+    "sha256": "f301ec492404554c42d49d8bd1bea6c696e8797de0d449d27693601eef23b414",
+    "bytes": 13308
+  },
+  "artifact": {
+    "path": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\07-workspace\\07-workspace.html",
+    "sha256": "4374de76c2193b6641b9753a989b98515a1c60679209deb6fb711ec13dd95249",
+    "bytes": 849257
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\07-workspace\\07-workspace.finalize.json",
+    "summaryReceipt": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\07-workspace\\07-workspace.finalize-summary.json",
+    "browserCheckReceipt": "C:\\Users\\HP\\OneDrive\\Documents\\webd\\task\\Solve.ai\\.archify\\architecture-solve-system-20261018-001327\\07-workspace\\07-workspace.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.1.0",
+    "availableVersion": "3.1.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-17T18:38:39.857Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 14285
+}

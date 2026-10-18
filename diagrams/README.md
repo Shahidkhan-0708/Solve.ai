@@ -1,6 +1,10 @@
 # Solve.ai agent orchestration
 
-The Mermaid files are the editable source of truth. The target workflow describes the intended exam-helper product from `researchingoogle.txt`. The three current-workflow diagrams describe the implementation in `backend/main.py` and `app/api.ts`. The PDF requirements were not used: a working local PDF reader was unavailable during this pass.
+Open [Architecture and workflows](solve-architecture.html) for the interactive Archify set: the current system architecture, six current workflows, and three views of the planned agent blueprint. Current maps cite an isolated snapshot of the working tree from 18 October 2026, including uncommitted backend and active `neFrontend` changes. Boxes tagged **Continue** return to the identically named step.
+
+Editable Archify candidates, source evidence and validation receipts live under `.archify/architecture-solve-system-20261018-001327/`. The snapshot is separate from the project's Git history. The original Mermaid files and exports are retained below; their implementation notes describe an earlier version and can differ from the current code.
+
+The target Mermaid workflow describes the intended exam-helper product from `researchingoogle.txt`. The PDF requirements were not used for that original pass.
 
 ## Diagrams
 

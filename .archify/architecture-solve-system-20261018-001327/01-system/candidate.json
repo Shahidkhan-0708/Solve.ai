@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Solve.ai: current system architecture",
+    "locale": "en",
+    "output": ".archify/architecture-solve-system-20261018-001327/01-system/01-system.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Shahidkhan-0708/Solve.ai.git",
+      "revision": "df8ac2721b6b031c04076fab24a37f61e7f5ac75",
+      "link_mode": "local-only"
+    }
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "frontend",
+      "label": "Browser / PWA",
+      "sublabel": "Chat, Study, Plan, Target",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "neFrontend/docs/api-integration.md",
+          "line": 1,
+          "end_line": 29
+        }
+      ]
+    },
+    {
+      "id": "next",
+      "type": "frontend",
+      "label": "Next.js frontend",
+      "sublabel": "neFrontend /api proxy",
+      "pos": [
+        350,
+        40
+      ],
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "neFrontend/next.config.ts",
+          "line": 1,
+          "end_line": 3
+        },
+        {
+          "path": "neFrontend/lib/api.mjs",
+          "line": 11,
+          "end_line": 40
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "FastAPI",
+      "sublabel": "Ownership and route control",
+      "pos": [
+        670,
+        40
+      ],
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 98,
+          "end_line": 151
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1401,
+          "end_line": 1408
+        },
+        {
+          "path": "backend/main.py",
+          "line": 517,
+          "end_line": 644
+        }
+      ]
+    },
+    {
+      "id": "models",
+      "type": "cloud",
+      "label": "Groq / Gemini",
+      "sublabel": "Configured AI provider",
+      "pos": [
+        1130,
+        40
+      ],
+      "size": [
+        180,
+        80
+      ],
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 522,
+          "end_line": 586
+        },
+        {
+          "path": "backend/product.py",
+          "line": 228,
+          "end_line": 304
+        },
+        {
+          "path": "backend/media.py",
+          "line": 118,
+          "end_line": 140
+        }
+      ]
+    },
+    {
+      "id": "workspace",
+      "type": "backend",
+      "label": "Workspace services",
+      "sublabel": "Accounts, goals, reminders",
+      "pos": [
+        350,
+        290
+      ],
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 92,
+          "end_line": 179
+        },
+        {
+          "path": "backend/product.py",
+          "line": 692,
+          "end_line": 830
+        },
+        {
+          "path": "backend/notifications.py",
+          "line": 42,
+          "end_line": 84
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "type": "external",
+      "label": "Google identity",
+      "sublabel": "Optional verified sign-in",
+      "pos": [
+        40,
+        290
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/accounts.py",
+          "line": 136,
+          "end_line": 179
+        }
+      ]
+    },
+    {
+      "id": "push",
+      "type": "cloud",
+      "label": "Browser push",
+      "sublabel": "Opt-in VAPID delivery",
+      "pos": [
+        350,
+        540
+      ],
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/notifications.py",
+          "line": 36,
+          "end_line": 68
+        },
+        {
+          "path": "backend/notifications.py",
+          "line": 87,
+          "end_line": 106
+        }
+      ]
+    },
+    {
+      "id": "adapter",
+      "type": "backend",
+      "label": "Database adapter",
+      "sublabel": "Read environment; connect",
+      "pos": [
+        670,
+        290
+      ],
+      "size": [
+        190,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/main.py",
+          "line": 63,
+          "end_line": 82
+        },
+        {
+          "path": "backend/database.py",
+          "line": 320,
+          "end_line": 342
+        }
+      ]
+    },
+    {
+      "id": "postgres",
+      "type": "database",
+      "label": "PostgreSQL",
+      "sublabel": "Configured database URL",
+      "pos": [
+        590,
+        540
+      ],
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/database.py",
+          "line": 324,
+          "end_line": 338
+        }
+      ]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "Local default / fallback",
+      "pos": [
+        850,
+        540
+      ],
+      "size": [
+        160,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/database.py",
+          "line": 336,
+          "end_line": 342
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "type": "backend",
+      "label": "Media pipeline",
+      "sublabel": "Uploads, voice, Manim",
+      "pos": [
+        1130,
+        290
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 68,
+          "end_line": 96
+        },
+        {
+          "path": "backend/animation.py",
+          "line": 126,
+          "end_line": 200
+        },
+        {
+          "path": "backend/media.py",
+          "line": 193,
+          "end_line": 232
+        }
+      ]
+    },
+    {
+      "id": "files",
+      "type": "database",
+      "label": "Private media files",
+      "sublabel": "DATA/media + animations",
+      "pos": [
+        1130,
+        540
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "backend/media.py",
+          "line": 85,
+          "end_line": 96
+        },
+        {
+          "path": "backend/animation.py",
+          "line": 162,
+          "end_line": 176
+        },
+        {
+          "path": "backend/main.py",
+          "line": 1383,
+          "end_line": 1397
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "browser-next",
+      "from": "browser",
+      "to": "next",
+      "label": "App + /api"
+    },
+    {
+      "id": "next-api",
+      "from": "next",
+      "to": "api",
+      "label": "/api rewrite"
+    },
+    {
+      "id": "api-models",
+      "from": "api",
+      "to": "models",
+      "label": "Structured JSON / SSE"
+    },
+    {
+      "id": "api-workspace",
+      "from": "api",
+      "to": "workspace",
+      "label": "Product routes"
+    },
+    {
+      "id": "workspace-identity",
+      "from": "workspace",
+      "to": "identity",
+      "label": "Verify ID token"
+    },
+    {
+      "id": "workspace-push",
+      "from": "workspace",
+      "to": "push",
+      "label": "Due + opted in"
+    },
+    {
+      "id": "api-adapter",
+      "from": "api",
+      "to": "adapter",
+      "label": "SQL persistence"
+    },
+    {
+      "id": "adapter-postgres",
+      "from": "adapter",
+      "to": "postgres",
+      "label": "URL configured"
+    },
+    {
+      "id": "adapter-sqlite",
+      "from": "adapter",
+      "to": "sqlite",
+      "label": "Local fallback"
+    },
+    {
+      "id": "api-media",
+      "from": "api",
+      "to": "media",
+      "label": "Media routes"
+    },
+    {
+      "id": "media-files",
+      "from": "media",
+      "to": "files",
+      "label": "Read / write files"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Runtime ownership",
+      "items": [
+        "The lower service boxes are modules of one FastAPI process, not separate deployed workers.",
+        "Study orchestration, grading, budgets and FSRS recall run in backend/main.py.",
+        "Chat, goals, cards, history, exports and feedback are installed by backend/product.py."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Persistence and privacy",
+      "items": [
+        "Database selection is environment driven. The adapter attempts PostgreSQL when configured and contains a SQLite fallback.",
+        "Sessions, operations, accounts, conversations, messages and records share the selected database.",
+        "Owner checks protect state and private files. No Redis integration is present in the inspected source."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Configured capabilities",
+      "items": [
+        "Provider selection follows environment configuration; chat uses a separate streaming path.",
+        "Google sign-in, speech and browser push require their respective service configuration.",
+        "Animation jobs use an in-process queue: one renderer, at most eight jobs, four minutes per render."
+      ]
+    }
+  ]
+}
